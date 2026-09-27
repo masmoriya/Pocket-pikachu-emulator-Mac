@@ -3,6 +3,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {applyAuthoredColors} from './authored-frame-colors.mjs';
+import {applySceneColors} from './scene-colors.mjs';
+import {applyDetailColors} from './detail-colors.mjs';
+import {applyFinalColors} from './final-frame-colors.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const frames=JSON.parse(fs.readFileSync(path.join(root,'mac/Sources/PocketPikachu/Resources/animations.json'))).frames;
 const corrections=JSON.parse(fs.readFileSync(path.join(root,'art/color-corrections.json'),'utf8'));
@@ -22,7 +25,7 @@ for(const frame of frames.filter(f=>f.category==='character')) {
    if(edge.length<2)continue;
    const values=edge.map(p=>side==='bottom'?p%36:Math.floor(p/36));
    const low=Math.min(...values),high=Math.max(...values);
-   if(high-low>10)continue;
+   if(high-low>((['horn','rollingBall','flyingKite'].includes(group)||group==='study'&&side==='left'&&high<=14)?29:10))continue;
    for(let n=low;n<=high;n++)barrier.add(side==='bottom'?1044+n:side==='left'?n*36:n*36+35);
   }
  }
@@ -94,12 +97,20 @@ for(const frame of frames.filter(f=>f.category==='character')) {
   const x=frame.id.includes('rollingRight')?18:17, cheekPixel=7*36+x;
   if(ink.has(cheekPixel))colors.set(cheekPixel,'cheek');
  }
- // Apply authored overrides last, supporting rectangles and exact pixel membership.
+ applyAuthoredColors(frame, colors, frames);
+ applySceneColors(frame, colors, frames);
+ applyDetailColors(frame, colors);
+ applyFinalColors(frame, colors);
+ // User-authored shape and pixel corrections take precedence over pose heuristics.
  for(const [key,override] of Object.entries(corrections))if(frame.id===key||key.endsWith('.*')&&frame.id.startsWith(key.slice(0,-1))){
   for(const {rect,color,ink:includeInk=false} of override.regions??[])paint(rect,color,!includeInk);
-  for(const [color,points] of Object.entries(override.pixels??{}))for(const p of points)colors.set(p,color);
+  for(const [color,points] of Object.entries(override.pixels??{}))for(const p of points){
+   if(color==='cheek')for(const [old,existing] of colors)if(existing==='cheek'){
+    if(ink.has(old))colors.set(old,'ink');else colors.delete(old);
+   }
+   colors.set(p,color);
+  }
  }
- applyAuthoredColors(frame, colors, frames);
  const output={};for(const [p,color]of colors)(output[color]??=[]).push(p);
  masks[frame.id]=output;
 }

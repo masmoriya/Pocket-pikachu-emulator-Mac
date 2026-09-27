@@ -111,7 +111,7 @@ export function applyAuthoredColors(frame, colors, frames) {
     const bottom = id.endsWith('helloLeft') ? [7,29] : id.endsWith('helloRight') ? [6,28] : [7,28];
     const filled = enclosed(frame, bottom);
     colors.clear(); for (const entry of filled) colors.set(...entry);
-    for (const rect of hello ? [[11,15,12,16], [23,15,24,16]] : [[12,17,13,18], [23,17,24,18]]) {
+    for (const rect of hello ? [[11,15,12,16], [23,15,24,16]] : [[11,17,12,18], [23,17,24,18]]) {
       inkRect(colors, ink, rect, 'cheek');
     }
     if (hello) region(colors, ink, [17,18], 'pink');
@@ -143,23 +143,35 @@ export function applyAuthoredColors(frame, colors, frames) {
       const p = point(x,y);
       if (colors.get(p) === 'white' && !ink.has(p)) colors.set(p, 'fur');
     }
+    // The side view faces the book. Its cheek is beside the eye at the front,
+    // not the isolated back/tail mark selected by the generic side heuristic.
+    clearCheeks(colors, ink);
+    inkRect(colors, ink, [19,20,19,20], 'cheek');
+    return;
+  }
+  if (id === 'flyingKite.kiteLeftFast4') {
+    // This tight crop's isolated pixel belongs to the kite, not Pikachu's cheek.
+    clearCheeks(colors, ink);
+    const kiteMark = point(34,10);
+    if (ink.has(kiteMark)) colors.set(kiteMark, 'ink');
     return;
   }
   if (id.startsWith('bath.shower')) {
-    // Only the spray and water strokes are blue; retain the shower hardware's
-    // black outline and avoid painting adjoining silhouettes.
+    // Color the falling drops while keeping the shower head and pipe black.
+    // The drops are isolated source pixels above Pikachu's silhouette.
     for (const p of frame.pixels) {
       const x = p % width, y = Math.floor(p / width);
-      if (x <= 4 && (y <= 11 || y >= 23 && y <= 27)) colors.set(p, 'blue');
+      if (x >= 6 && x <= 23 && y <= 14 &&
+          neighbors(p).every(n => !ink.has(n))) colors.set(p, 'blue');
     }
     clearCheeks(colors, ink);
-    const cheek = id === 'bath.shower1' ? [19,16] : [17,16];
+    const cheek = id === 'bath.showerLook' ? [20,18] : [17,16];
     inkRect(colors, ink, [...cheek, ...cheek], 'cheek');
     return;
   }
   if (id.startsWith('bath.bath')) {
-    // Bubbles are small filled marks above the bath. Keep the rim and body
-    // monochrome, and ensure the pose's cheek stays at its original pixel.
+    // Keep the tub enamel white, color the bubbles and bath water blue, and
+    // leave the rim and face marks in their source positions.
     const cheek = id === 'bath.bath1' ? [19,15] : [16,15];
     clearCheeks(colors, ink);
     inkRect(colors, ink, [...cheek, ...cheek], 'cheek');
@@ -174,6 +186,10 @@ export function applyAuthoredColors(frame, colors, frames) {
     for (let y = 18; y <= 19; y++) for (let x = 5; x <= 31; x++) {
       const p = point(x,y);
       if (colors.get(p) === 'fur' && !ink.has(p)) colors.set(p, 'white');
+    }
+    for (let x = 5; x <= 31; x++) {
+      const p = point(x,21);
+      if (colors.has(p) && !ink.has(p)) colors.set(p, 'blue');
     }
     return;
   }

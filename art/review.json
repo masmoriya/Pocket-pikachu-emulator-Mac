@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "status": "All character frames inspected as static contact sheets. Motion and palette polish remain pending.",
+  "status": "All 335 character frames statically inspected. Updated object contours and palette validated; representative native gallery comparisons checked after rebuild. Full playback review of all 65 clips is not claimed.",
   "frames": [
     {
       "id": "start.words",

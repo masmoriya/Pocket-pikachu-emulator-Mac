@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const destination = path.join(root,'mac/Sources/PocketPikachu/Resources');
 const library = JSON.parse(fs.readFileSync(path.join(destination,'animations.json'),'utf8'));
-const palette = {ink:[43,35,28,255],fur:[250,207,52,255],cheek:[222,66,42,255],brown:[144,83,42,255],white:[250,246,228,255],blue:[100,181,218,255],green:[110,153,87,255],pink:[237,142,163,255]};
+const palette = {ink:[43,35,28,255],fur:[250,207,52,255],cheek:[222,66,42,255],brown:[144,83,42,255],white:[255,255,255,255],blue:[100,181,218,255],green:[110,153,87,255],teal:[36,119,124,255],pink:[237,142,163,255]};
 const masksPath = path.join(root,'art/color-masks.json');
 const masks = fs.existsSync(masksPath) ? JSON.parse(fs.readFileSync(masksPath,'utf8')) : {};
 function crc32(data) { let crc = -1; for (const byte of data) { crc ^= byte; for(let k=0;k<8;k++) crc=(crc>>>1)^((crc&1)?0xedb88320:0); } return (crc^-1)>>>0; }
@@ -29,7 +29,10 @@ function raster(frame,colored) {
  if(!colored||frame.category!=='character') return pixels;
  const regions=masks[frame.id];
  if(regions) {
-   for(const [color,points] of Object.entries(regions)) for(const p of points) pixels.set(palette[color]??palette.ink,p*4);
+   for(const [color,points] of Object.entries(regions)) for(const p of points) {
+     if(color==='transparent') pixels.fill(0,p*4,p*4+4);
+     else pixels.set(palette[color]??palette.ink,p*4);
+   }
  } else {
    for(const p of enclosed(ink)) pixels.set(palette.fur,p*4);
  }

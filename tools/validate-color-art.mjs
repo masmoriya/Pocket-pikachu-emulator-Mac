@@ -1,4 +1,7 @@
 import assert from 'node:assert/strict';
+import {validateSceneColors} from './validate-scene-colors.mjs';
+import {validateDetailColors} from './validate-detail-colors.mjs';
+import {validateFinalColors} from './validate-final-colors.mjs';
 
 // Pixel-level regressions from the original/color gallery comparisons.
 // Alpha matters here: empty space must be absent, not painted white.
@@ -20,7 +23,8 @@ export function validateColorArt(frames, masks) {
     }
     if (/^(stand(Love|Like|Basic)|tongueMad|letter|flying)\./.test(frame.id)) {
       for (const p of mask.cheek ?? []) {
-        assert(frame.pixels.includes(p), `Cheek added outside source mark: ${frame.id}, ${p}`);
+        assert(frame.pixels.includes(p),
+          `Cheek added outside source mark: ${frame.id}, ${p}`);
       }
     }
   }
@@ -45,28 +49,45 @@ export function validateColorArt(frames, masks) {
   for (const id of ['piano.right', 'piano.left']) {
     assert.equal((masks[id].brown ?? []).length, 0, `Piano should stay monochrome: ${id}`);
   }
-  expect('piano.right', 21, 13, 'fur');
-  expect('piano.right', 18, 12, 'fur');
+  expect('piano.right', 21, 13, undefined);
+  expect('piano.right', 18, 12, undefined);
   for (const id of ['walk.stand', 'walk.walking1', 'walk.walking2']) {
     assert.equal((masks[id].cheek ?? []).length, 1, `One cheek mark per side pose: ${id}`);
   }
   expect('walk.stand', 22, 21, 'cheek');
   expect('walk.stand', 29, 16, undefined);
-  expect('watchTV.stand1', 20, 22, 'cheek');
-  expect('watchTV.stand2', 20, 22, 'cheek');
-  expect('watchTV.jump', 24, 21, 'cheek');
+  expect('watchTV.stand1', 24, 23, 'cheek');
+  expect('watchTV.stand2', 24, 23, 'cheek');
+  expect('watchTV.jump', 24, 20, 'cheek');
   expect('watchTV.jump', 26, 17, 'fur');
   expect('reading.sand1', 16, 24, 'fur');
   expect('reading.nextPage', 15, 24, 'fur');
+  for (const id of ['reading.sand1', 'reading.sand2', 'reading.nextPage']) {
+    expect(id, 20, 22, 'cheek');
+    assert.equal(masks[id].cheek.length, 1, `One face cheek in reading pose: ${id}`);
+  }
   expect('eating.eatingToast', 17, 17, 'white');
   expect('eating.angryToast', 2, 21, 'white');
   expect('eating.eatingOnigiri', 8, 21, 'white');
   expect('eating.angryOnigiri', 7, 21, 'white');
   expect('eating.eatingChopsticks', 7, 21, 'white');
   expect('bath.bath1', 19, 15, 'cheek');
-  expect('bath.bath1', 20, 19, 'white');
+  expect('bath.bath1', 20, 19, 'blue');
   expect('bath.bath1', 13, 12, 'blue');
-  expect('bath.bath1', 4, 19, 'blue');
+  expect('bath.bath1', 4, 19, 'ink');
+  expect('bath.bath1', 12, 21, 'blue');
+  expect('bath.bath1', 2, 21, 'ink');
+  expect('bath.bath1', 12, 24, 'white');
+  expect('bath.shower1', 2, 15, 'ink');
+  expect('bath.shower1', 10, 5, 'blue');
+  for (const id of ['bath.shower1', 'bath.shower2', 'bath.showerLook']) {
+    assert.equal(masks[id].fur.some(p => p % 36 <= 8 && Math.floor(p / 36) <= 4), false,
+      `Shower head must not be fur-colored: ${id}`);
+  }
+  expect('flyingKite.kiteLeftFast4', 34, 10, 'ink');
+  validateSceneColors(frames, masks);
+  validateDetailColors(frames, masks);
+  validateFinalColors(frames, masks);
 
   // The glider is one drawing translated across the screen. Both source ink
   // and color/alpha membership must translate identically through every crop.
