@@ -162,6 +162,31 @@ body {
     position: absolute;
 }
 
+.giftAmountControl {
+    position: absolute;
+    top: 205px;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transform: translateX(-50%);
+    color: #1d2632;
+    font: 16px Arial, sans-serif;
+    white-space: nowrap;
+}
+
+.giftAmountControl[hidden] {
+    display: none;
+}
+
+#giftAmountInput {
+    width: 88px;
+    padding: 6px 8px;
+    border: 1px solid #1d2632;
+    border-radius: 6px;
+    font: inherit;
+}
+
 button {
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
@@ -451,4 +476,3 @@ footer p {
         transform: rotate(360deg)
     }
 }
-    

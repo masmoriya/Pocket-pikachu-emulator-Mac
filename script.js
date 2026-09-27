@@ -340,6 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     clearInterval(intervalAnim);
                     clearAllTimeouts();
                     resetGivenWatts();
+                    document.querySelector('.giftAmountControl').hidden = true;
     
                     // Give present to Pikachu / Update friendship level
                     updateFriendshipLevel(wattsAux.givenAmountWatts, true, true);
@@ -496,6 +497,10 @@ document.addEventListener('DOMContentLoaded', () => {
                                         loadAnim(DisplayScreen, Anims.gift.sleeping)
                                     }else{
                                         // Prepare Gift
+                                        document.querySelector('.giftAmountControl').hidden = false;
+                                        document.querySelector('#giftAmountAvailable').textContent = pokeStatus.watts;
+                                        document.querySelector('#giftAmountInput').max = Math.min(999, pokeStatus.watts);
+                                        document.querySelector('#giftAmountInput').value = wattsAux.givenAmountWatts;
                                         displayTotalWatts(DisplayScreen);
                                         intervalAnim = setInterval(SelectWatts, 500);
                                         function SelectWatts(){
@@ -567,6 +572,7 @@ document.addEventListener('DOMContentLoaded', () => {
             clearInterval(intervalAnim);
             clearAllTimeouts();
             resetGivenWatts();
+            document.querySelector('.giftAmountControl').hidden = true;
             document.querySelector("#clockMenu").classList.add('selected')
 
             // APAGAR LA PANTALLA AL MINUTO
@@ -578,6 +584,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearInterval(intervalAnim);
                 clearAllTimeouts();
                 animStatus = ''
+                document.querySelector('.giftAmountControl').hidden = true;
                 isLateAwake = false;
                 cleanStates();
                 document.querySelector('.walkCounter').innerHTML = '';
@@ -692,6 +699,61 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
+    function changeGiftDigit(direction) {
+        if(animStatus != 'gift') return;
+        const delta = direction > 0 ? 1 : -1;
+        switch (wattsAux.selectedUnitWatt) {
+            case 'cent':
+                wattsAux.GivenCents = (wattsAux.GivenCents + delta + 10) % 10;
+                break;
+            case 'dec':
+                wattsAux.GivenDecs = (wattsAux.GivenDecs + delta + 10) % 10;
+                break;
+            case 'unit':
+                wattsAux.GivenUnits = (wattsAux.GivenUnits + delta + 10) % 10;
+                break;
+        }
+        wattsAux.givenAmountWatts = Number(`${wattsAux.GivenCents}${wattsAux.GivenDecs}${wattsAux.GivenUnits}`);
+        const amountInput = document.querySelector('#giftAmountInput');
+        if(document.activeElement !== amountInput) amountInput.value = wattsAux.givenAmountWatts;
+    }
+
+    function bindDirectionButton(buttonId, direction) {
+        const button = document.querySelector(buttonId);
+        let repeatTimer;
+        let suppressClick = false;
+
+        button.addEventListener('pointerdown', event => {
+            if(animStatus != 'gift') return;
+            event.preventDefault();
+            suppressClick = true;
+            button.setPointerCapture(event.pointerId);
+            changeGiftDigit(direction);
+
+            repeatTimer = setTimeout(function repeat() {
+                changeGiftDigit(direction);
+                repeatTimer = setTimeout(repeat, 80);
+            }, 400);
+        });
+
+        const stopRepeating = () => {
+            clearTimeout(repeatTimer);
+        };
+        button.addEventListener('pointerup', stopRepeating);
+        button.addEventListener('pointercancel', stopRepeating);
+        button.addEventListener('lostpointercapture', stopRepeating);
+        window.addEventListener('blur', stopRepeating);
+
+        button.addEventListener('click', event => {
+            if(suppressClick) {
+                suppressClick = false;
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                return;
+            }
+        }, true);
+    }
+
     // TOP BUTTON
     document.querySelector('#top-button').addEventListener('click', () => {
         if(!isiOS()){
@@ -701,18 +763,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Error al intentar vibrar:", error);
             }
         }
-        if(animStatus == 'gift'){
-            switch (wattsAux.selectedUnitWatt) {
-                case "cent":
-                    wattsAux.GivenCents = (wattsAux.GivenCents < 9)? (wattsAux.GivenCents + 1) : 0
-                    break;
-                case "dec":
-                    wattsAux.GivenDecs = (wattsAux.GivenDecs < 9)? (wattsAux.GivenDecs + 1) : 0
-                    break;
-                case "unit":
-                    wattsAux.GivenUnits = (wattsAux.GivenUnits < 9)? (wattsAux.GivenUnits + 1) : 0
-                    break;
-            }
+        if(animStatus == 'gift') {
+            changeGiftDigit(1);
         }else if(animStatus == 'settings') {
             let indexSelected = settingsMenus.indexOf(selectedSettingMenu);
             selectedSettingMenu = (indexSelected > 0)? settingsMenus[indexSelected - 1] : selectedSettingMenu;
@@ -735,18 +787,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Error al intentar vibrar:", error);
             }
         }
-        if(animStatus == 'gift'){
-            switch (wattsAux.selectedUnitWatt) {
-                case "cent":
-                    wattsAux.GivenCents = (wattsAux.GivenCents > 0)? (wattsAux.GivenCents - 1) : 9
-                    break;
-                case "dec":
-                    wattsAux.GivenDecs = (wattsAux.GivenDecs > 0)? (wattsAux.GivenDecs - 1) : 9
-                    break;
-                case "unit":
-                    wattsAux.GivenUnits = (wattsAux.GivenUnits > 0)? (wattsAux.GivenUnits - 1) : 9
-                    break;
-            }
+        if(animStatus == 'gift') {
+            changeGiftDigit(-1);
         }else if(animStatus == 'settings') {
             let indexSelected = settingsMenus.indexOf(selectedSettingMenu);
             selectedSettingMenu = (indexSelected < 2)? settingsMenus[indexSelected + 1] : selectedSettingMenu;
@@ -759,6 +801,27 @@ document.addEventListener('DOMContentLoaded', () => {
             loadAnim(DisplayScreen, Anims.settingsDiff[settings.dificultySelected])
         }
     })
+
+    bindDirectionButton('#top-button', 1);
+    bindDirectionButton('#bottom-button', -1);
+
+    const giftAmountInput = document.querySelector('#giftAmountInput');
+    giftAmountInput.addEventListener('input', () => {
+        const rawAmount = Number(giftAmountInput.value);
+        const amount = giftAmountInput.value === '' ? 0 : Math.floor(Math.max(0, Math.min(999, pokeStatus.watts, rawAmount)));
+        wattsAux.GivenCents = Math.floor(amount / 100);
+        wattsAux.GivenDecs = Math.floor(amount / 10) % 10;
+        wattsAux.GivenUnits = amount % 10;
+        wattsAux.givenAmountWatts = amount;
+        if(giftAmountInput.value !== '' && amount !== rawAmount) giftAmountInput.value = amount;
+    });
+    giftAmountInput.addEventListener('keydown', event => {
+        if(event.key === 'Enter') {
+            event.preventDefault();
+            wattsAux.selectedUnitWatt = 'give';
+            enterButton();
+        }
+    });
 
     //RESET BUTTON
     document.querySelector('#reset-button').addEventListener('click', () => {
@@ -3304,4 +3367,3 @@ function calculatePastHours() {
 
   return pastHours.toFixed(0);
 }
-
