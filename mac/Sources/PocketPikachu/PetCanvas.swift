@@ -59,12 +59,8 @@ import PocketCore
     }
     private func perform(_ command: ShellButton.Action) {
         switch command {
-        case .previous, .next:
-            let clips = model.library.clips
-            guard !clips.isEmpty else { return }
-            let current = clips.firstIndex { $0.id == model.activity } ?? 0
-            let next = (current + (command == .next ? 1 : clips.count - 1)) % clips.count
-            model.select(clips[next].id)
+        case .previous: model.cycleActivity(-1)
+        case .next: model.cycleActivity()
         case .pet: model.react("hearts")
         case .feed: model.react("toast", seconds: 12)
         case .controls, .status: clicked?()
@@ -75,19 +71,10 @@ import PocketCore
     }
     private func clickPet() {
         guard model.pet.cycleActivitiesOnClick ?? true else { clicked?(); return }
-        let clips = model.library.clips
-        guard !clips.isEmpty else { return }
-        guard let current = clips.firstIndex(where: { $0.id == model.activity }) else {
-            model.select(clips[0].id)
-            return
-        }
-        if current == clips.count - 1 { model.select(nil) }
-        else { model.select(clips[current + 1].id) }
+        model.cycleActivity()
     }
     private func scheduleFrame() {
-        guard let clip = model.currentClip else { return }
-        let elapsed = Date.now.timeIntervalSince(model.activityStarted)
-        let sample = clip.sample(at: elapsed, repeatFinite: model.pet.selectedActivity != nil)
+        let sample = model.sample()
         frameID = sample.frame
         frameChanged?()
         needsDisplay = true

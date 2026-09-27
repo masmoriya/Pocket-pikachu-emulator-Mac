@@ -28,13 +28,11 @@ import PocketCore
             item.button?.toolTip = "Pocket Pikachu"
             return
         }
-        guard let clip = model.currentClip else { return }
-        let sample = clip.sample(at: Date.now.timeIntervalSince(model.activityStarted),
-                                 repeatFinite: model.pet.selectedActivity != nil)
+        let sample = model.sample()
         if let frame = model.frames[sample.frame] {
             item.button?.image = image(frame, style: style)
         }
-        item.button?.toolTip = "Pocket Pikachu · \(clip.label) · \(model.pet.progression.steps) steps · \(model.pet.progression.watts) W"
+        item.button?.toolTip = "Pocket Pikachu · \(model.activityLabel) · \(model.pet.progression.steps) steps · \(model.pet.progression.watts) W"
         guard !model.sleepingDisplay else { return }
         let timer = Timer(timeInterval: max(0.01, sample.remaining), repeats: false) { [weak self] _ in
             MainActor.assumeIsolated { self?.refresh() }

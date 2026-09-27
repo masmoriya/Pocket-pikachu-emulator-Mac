@@ -16,6 +16,7 @@ import PocketCore
     let library: AnimationLibrary
     let frames: [String: PixelFrame]
     let clips: [String: AnimationClip]
+    private var activityPlayer: AnimationActivityPlayer
     private let store: CompanionStore
     private lazy var scanner = UsageScanner(cursors: saved.cursors ?? [:], home: saved.pet.codexHome)
     private var timer: Timer?
@@ -36,14 +37,19 @@ import PocketCore
     var onOpenSettings: (() -> Void)?
     var onOpenGallery: (() -> Void)?
     var pet: PetState { saved.pet }
-    var currentClip: AnimationClip? { clips[activity] }
+    var selectedActivity: String? { pet.selectedActivity.map(activityPlayer.canonicalActivity) }
+    var activityLabel: String { activityPlayer.label(for: activity, clips: clips) }
+    var activityChoices: [AnimationActivityChoice] { activityPlayer.choices(in: library.clips) }
     var animating: Bool { !hidden && !sleepingDisplay }
 
     init() throws {
         let resource = AppResources.bundle.url(forResource: "animations", withExtension: "json")!
         library = try JSONDecoder().decode(AnimationLibrary.self, from: Data(contentsOf: resource))
+        let sequenceResource = AppResources.bundle.url(forResource: "sequences", withExtension: "json")!
+        let sequenceLibrary = try JSONDecoder().decode(AnimationSequenceLibrary.self, from: Data(contentsOf: sequenceResource))
         frames = Dictionary(uniqueKeysWithValues: library.frames.map { ($0.id, $0) })
         clips = Dictionary(uniqueKeysWithValues: library.clips.map { ($0.id, $0) })
+        activityPlayer = AnimationActivityPlayer(sequences: sequenceLibrary.sequences)
         let home = ProcessInfo.processInfo.environment["CODEX_HOME"] ?? NSHomeDirectory() + "/.codex"
         let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
         store = CompanionStore(url: support.appendingPathComponent("PocketPikachu/state.json"))
@@ -53,7 +59,7 @@ import PocketCore
             savingAllowed = false
             self.error = "Saved state could not be opened. It has been preserved. Restore state.json before restarting."
         }
-        activity = saved.pet.selectedActivity ?? saved.pet.friendship.idle
+        activity = activityPlayer.canonicalActivity(saved.pet.selectedActivity ?? saved.pet.friendship.idle)
     }
     func start() {
         timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
@@ -73,10 +79,23 @@ import PocketCore
         do { try store.save(saved) } catch { self.error = "Could not save companion state: \(error.localizedDescription)" }
     }
     func interact() { saved.pet.lastInteraction = .now; persist() }
+    func resumeAnimation() { sleepingDisplay = false }
     func select(_ id: String?) {
-        saved.pet.selectedActivity = id
+        let selected = id.map(activityPlayer.canonicalActivity)
+        saved.pet.selectedActivity = selected
         reactionTask?.cancel(); temporaryUntil = nil; returnActivity = nil; interact()
-        switchActivity(id ?? saved.pet.friendship.idle)
+        switchActivity(selected ?? saved.pet.friendship.idle)
+    }
+    func cycleActivity(_ offset: Int = 1) {
+        let activities = activityChoices
+        guard !activities.isEmpty else { return }
+        guard let current = activities.firstIndex(where: { $0.id == activityPlayer.canonicalActivity(activity) }) else {
+            select(offset < 0 ? activities[activities.count - 1].id : activities[0].id)
+            return
+        }
+        let next = current + (offset < 0 ? -1 : 1)
+        if next < 0 || next >= activities.count { select(nil) }
+        else { select(activities[next].id) }
     }
     func friendship(_ value: Friendship) {
         saved.pet.friendship = value; interact()
@@ -170,7 +189,7 @@ import PocketCore
         }
         guard pet.selectedActivity == nil else { return }
         if let resting = PetBehavior.restingActivity(state: pet, now: .now) {
-            if activity != resting { switchActivity(resting) }
+            if activity != activityPlayer.canonicalActivity(resting) { switchActivity(resting) }
             return
         }
         if Date.now >= nextActivity {
@@ -178,10 +197,21 @@ import PocketCore
             if ["toast", "rice", "onigiri", "bath", "shower"].contains(activity) {
                 switchActivity("brush"); nextActivity = .now.addingTimeInterval(8); return
             }
-            let options = [pet.friendship.idle, "reading", "computer", "yoyo", "sand", "blocks", "kite", "history", "maths", "english", "bath", "shower", "rice", "onigiri", "toast", "rc"]
+            let options = [pet.friendship.idle, "reading", "computer", "yoyo", "sand", "blocks", "kite", "study", "bath", "rice", "onigiri", "toast", "rc"]
             switchActivity(options.randomElement()!)
             nextActivity = .now.addingTimeInterval(Double.random(in: 45...120))
         }
     }
-    private func switchActivity(_ id: String) { activity = id; activityStarted = .now }
+    func sample(at date: Date = .now) -> AnimationSample {
+        let elapsed = max(0, date.timeIntervalSince(activityStarted))
+        return activityPlayer.sample(activityID: activity, elapsed: elapsed, clips: clips,
+                                     repeatFinite: pet.selectedActivity != nil)
+    }
+
+    private func switchActivity(_ id: String) {
+        let now = Date.now
+        activity = activityPlayer.switchActivity(to: id, from: activity,
+            elapsed: now.timeIntervalSince(activityStarted), clips: clips)
+        activityStarted = now
+    }
 }

@@ -22,9 +22,11 @@ import SwiftUI
     private var item: NSStatusItem?
     private var menuBarPet: MenuBarPet?
     private let actions = NSPopover()
+    private let statusMenu = NSMenu()
     private var settings: NSWindow?
     private var gallery: NSWindow?
     private var workspaceObservers: [NSObjectProtocol] = []
+    private var statusRightClickMonitor: Any?
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
         do {
@@ -36,14 +38,22 @@ import SwiftUI
             model.onOpenGallery = { [weak self] in self?.openGallery() }
             let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
             item.button?.image = NSImage(systemSymbolName: "pawprint.fill", accessibilityDescription: "Pocket Pikachu")
-            let menu = NSMenu()
+            let menu = statusMenu
             for (label, action) in [("Pet controls…", #selector(openActions)), ("Show desktop widget", #selector(showPet)), ("Menu bar only", #selector(hidePet)),
                                     ("Animations…", #selector(openGallery)), ("Settings…", #selector(openSettings)),
                                     ("Quit", #selector(quit))] {
                 let entry = menu.addItem(withTitle: label, action: action, keyEquivalent: "")
                 entry.target = self
             }
-            item.menu = menu; self.item = item
+            self.item = item
+            item.button?.target = self
+            item.button?.action = #selector(statusItemClicked)
+            statusRightClickMonitor = NSEvent.addLocalMonitorForEvents(matching: .rightMouseDown) { [weak self] event in
+                guard let self, let button = self.item?.button, event.window === button.window,
+                      button.bounds.contains(button.convert(event.locationInWindow, from: nil)) else { return event }
+                self.showStatusMenu()
+                return nil
+            }
             menuBarPet = MenuBarPet(model: model, item: item)
             actions.behavior = .transient
             actions.contentViewController = NSHostingController(rootView: ActionsView(model: model))
@@ -52,7 +62,7 @@ import SwiftUI
                 MainActor.assumeIsolated { model?.sleepingDisplay = true }
             })
             workspaceObservers.append(center.addObserver(forName: NSWorkspace.screensDidWakeNotification, object: nil, queue: .main) { [weak model] _ in
-                MainActor.assumeIsolated { model?.sleepingDisplay = false; model?.activityStarted = .now }
+                MainActor.assumeIsolated { model?.resumeAnimation() }
             })
             model.start()
             if model.saved.ledger.startedAt == nil { openSettings() }
@@ -70,6 +80,15 @@ import SwiftUI
             self.model?.interact()
             self.actions.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
         }
+    }
+    @objc private func statusItemClicked() {
+        guard let model else { return }
+        if model.pet.cycleActivitiesOnClick ?? true { model.cycleActivity() }
+        else { showStatusMenu() }
+    }
+    private func showStatusMenu() {
+        guard let button = item?.button else { return }
+        statusMenu.popUp(positioning: nil, at: NSPoint(x: 0, y: button.bounds.maxY), in: button)
     }
     func openControls() {
         if model?.hidden == true { openActions() }

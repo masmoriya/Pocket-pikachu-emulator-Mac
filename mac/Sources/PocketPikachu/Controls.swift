@@ -20,9 +20,9 @@ struct ActionsView: View {
             Picker("Friendship", selection: Binding(get: { model.pet.friendship }, set: model.friendship)) {
                 ForEach(Friendship.allCases, id: \.self) { Text($0.label).tag($0) }
             }
-            Picker("Activity", selection: Binding(get: { model.pet.selectedActivity ?? "auto" }, set: { model.select($0 == "auto" ? nil : $0) })) {
+            Picker("Activity", selection: Binding(get: { model.selectedActivity ?? "auto" }, set: { model.select($0 == "auto" ? nil : $0) })) {
                 Text("Live freely").tag("auto")
-                ForEach(model.library.clips) { Text($0.label).tag($0.id) }
+                ForEach(model.activityChoices) { Text($0.label).tag($0.id) }
             }
             HStack {
                 Stepper("Gift: \(gift) W", value: $gift, in: 0...999)

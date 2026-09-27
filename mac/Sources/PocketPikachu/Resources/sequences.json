@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "sequences": [
+    { "id": "sleep", "label": "Sleeping", "entry": ["bed"], "loop": ["sleep-front", "sleep-side", "sleep-back"], "exit": [] },
+    { "id": "computer", "label": "Using computer", "entry": [], "loop": ["computer", "typing"], "exit": [] },
+    { "id": "study", "label": "Studying", "entry": [], "loop": ["history", "maths", "english"], "exit": [] },
+    { "id": "studySleep", "label": "Sleeping at your desk", "entry": [], "loop": ["studySleep"], "exit": ["wakeStudy"] },
+    { "id": "lolly", "label": "Lollipop", "entry": [], "loop": ["lolly"], "exit": ["dropLolly"] },
+    { "id": "icecream", "label": "Ice cream", "entry": [], "loop": ["icecream"], "exit": ["dropIcecream"] },
+    { "id": "reading", "label": "Reading", "entry": [], "loop": ["reading", "page"], "exit": [] },
+    { "id": "tv", "label": "Watching TV", "entry": [], "loop": ["tv", "tvExcited"], "exit": [] },
+    { "id": "bath", "label": "Bathing", "entry": [], "loop": ["bath", "shower"], "exit": [] },
+    { "id": "sand", "label": "Building a sandcastle", "entry": [], "loop": ["sand", "sandFast"], "exit": [] },
+    { "id": "kite", "label": "Flying a kite", "entry": [], "loop": ["kite", "kiteFast"], "exit": [] },
+    { "id": "rc", "label": "Playing with a remote car", "entry": [], "loop": ["rc", "rcFast"], "exit": [] },
+    { "id": "yoyo", "label": "Playing yo-yo", "entry": [], "loop": ["yoyo", "yoyoDog"], "exit": [] },
+    { "id": "brush", "label": "Brushing teeth", "entry": [], "loop": ["brush", "brushFast"], "exit": [] }
+  ]
+}

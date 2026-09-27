@@ -73,6 +73,90 @@ final class PetTests: XCTestCase {
         XCTAssertEqual(clip.frame(at: 3), "a")
         XCTAssertEqual(clip.frame(at: 4), "b")
     }
+    func testSequencePlaysBedtimeEntryThenCyclesSleepForms() {
+        let clips = [
+            testClip("bed", ["walk", "tuck"], duration: 1),
+            testClip("front", ["front"], duration: 2),
+            testClip("side", ["side"], duration: 2),
+            testClip("back", ["back"], duration: 2)
+        ]
+        let sequence = AnimationSequence(id: "sleep", label: "Sleeping", entry: ["bed"],
+                                         loop: ["front", "side", "back"], exit: [])
+        let byID = Dictionary(uniqueKeysWithValues: clips.map { ($0.id, $0) })
+        XCTAssertEqual(sequence.sample(at: 0, clips: byID).frame, "walk")
+        XCTAssertEqual(sequence.sample(at: 0.5, clips: byID).frame, "tuck")
+        XCTAssertEqual(sequence.sample(at: 1, clips: byID).frame, "front")
+        XCTAssertEqual(sequence.sample(at: 3, clips: byID).frame, "side")
+        XCTAssertEqual(sequence.sample(at: 5, clips: byID).frame, "back")
+        XCTAssertEqual(sequence.sample(at: 7, clips: byID).frame, "front")
+    }
+    func testComputerSequenceAlternatesLookingAndTyping() {
+        let clips = [testClip("look", ["look"], duration: 1), testClip("type", ["type"], duration: 1)]
+        let sequence = AnimationSequence(id: "computer", label: "Using computer", entry: [],
+                                         loop: ["look", "type"], exit: [])
+        let byID = Dictionary(uniqueKeysWithValues: clips.map { ($0.id, $0) })
+        XCTAssertEqual(sequence.sample(at: 0, clips: byID).frame, "look")
+        XCTAssertEqual(sequence.sample(at: 1, clips: byID).frame, "type")
+        XCTAssertEqual(sequence.sample(at: 2, clips: byID).frame, "look")
+    }
+    func testTreatDropActionsPlayBeforeTheNextTreat() throws {
+        let package = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+        let resources = package.appendingPathComponent("Sources/PocketPikachu/Resources")
+        let library = try JSONDecoder().decode(AnimationLibrary.self,
+            from: Data(contentsOf: resources.appendingPathComponent("animations.json")))
+        let definitions = try JSONDecoder().decode(AnimationSequenceLibrary.self,
+            from: Data(contentsOf: resources.appendingPathComponent("sequences.json")))
+        let clips = Dictionary(uniqueKeysWithValues: library.clips.map { ($0.id, $0) })
+        var player = AnimationActivityPlayer(sequences: definitions.sequences)
+
+        let next = player.switchActivity(to: "icecream", from: "lolly", elapsed: 10, clips: clips)
+        XCTAssertEqual(player.sample(activityID: next, elapsed: 1.5, clips: clips, repeatFinite: true).frame, "licking.lollypopFall")
+        XCTAssertEqual(player.sample(activityID: next, elapsed: 4, clips: clips, repeatFinite: true).frame, "licking.icecream1")
+
+        let after = player.switchActivity(to: "neutral", from: next, elapsed: 4, clips: clips)
+        XCTAssertEqual(player.sample(activityID: after, elapsed: 1.5, clips: clips, repeatFinite: true).frame, "licking.icecreamFall")
+        XCTAssertEqual(player.sample(activityID: after, elapsed: 4, clips: clips, repeatFinite: true).frame, "standBasic.stand")
+    }
+    func testSequenceExitIsFiniteAndManifestReferencesUniqueClips() throws {
+        let exit = testClip("wake", ["awake"], duration: 1)
+        let sequence = AnimationSequence(id: "studySleep", label: "Sleeping at your desk", entry: [],
+                                         loop: ["sleep"], exit: ["wake"])
+        let byID = ["wake": exit, "sleep": testClip("sleep", ["sleep"], duration: 2)]
+        XCTAssertEqual(sequence.sampleExit(at: 0.25, clips: byID)?.frame, "awake")
+        XCTAssertNil(sequence.sampleExit(at: 1, clips: byID))
+
+        let neutral = testClip("neutral", ["neutral"], duration: 1)
+        let computer = AnimationSequence(id: "computer", label: "Using computer", entry: [],
+                                         loop: ["neutral"], exit: [])
+        var player = AnimationActivityPlayer(sequences: [sequence, computer])
+        let clips = byID.merging(["neutral": neutral]) { first, _ in first }
+        let selected = player.switchActivity(to: "computer", from: "studySleep", elapsed: 5, clips: clips)
+        XCTAssertEqual(player.sample(activityID: selected, elapsed: 0.25, clips: clips, repeatFinite: false).frame, "awake")
+        let interrupted = player.switchActivity(to: "neutral", from: selected, elapsed: 0.25, clips: clips)
+        XCTAssertEqual(player.sample(activityID: interrupted, elapsed: 0, clips: clips, repeatFinite: false).frame, "neutral")
+
+        let package = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+        let resources = package.appendingPathComponent("Sources/PocketPikachu/Resources")
+        let library = try JSONDecoder().decode(AnimationLibrary.self,
+            from: Data(contentsOf: resources.appendingPathComponent("animations.json")))
+        let definitions = try JSONDecoder().decode(AnimationSequenceLibrary.self,
+            from: Data(contentsOf: resources.appendingPathComponent("sequences.json")))
+        let clipIDs = Set(library.clips.map(\.id))
+        let components = definitions.sequences.flatMap(\.componentIDs)
+        XCTAssertTrue(components.allSatisfy(clipIDs.contains))
+        XCTAssertEqual(components.count, Set(components).count)
+        let choicePlayer = AnimationActivityPlayer(sequences: definitions.sequences)
+        let choices = choicePlayer.choices(in: library.clips)
+        XCTAssertTrue(choices.contains { $0.id == "sleep" })
+        XCTAssertTrue(choices.contains { $0.id == "computer" })
+        XCTAssertFalse(choices.contains { ["bed", "typing", "sleep-front", "sleep-side", "sleep-back"].contains($0.id) })
+        XCTAssertEqual(choicePlayer.canonicalActivity("typing"), "computer")
+        XCTAssertEqual(choicePlayer.canonicalActivity("sleep-front"), "sleep")
+    }
+    private func testClip(_ id: String, _ frames: [String], duration: Double) -> AnimationClip {
+        AnimationClip(id: id, label: id, source: "test", loop: true, loopStart: 0,
+                      steps: frames.map { .init(frame: $0, duration: duration / Double(frames.count)) }, props: [])
+    }
 }
 
 extension PetTests {
