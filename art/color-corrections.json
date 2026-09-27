@@ -1,0 +1,94 @@
+{
+  "piano.*": {
+    "regions": [
+      {
+        "rect": [
+          10,
+          17,
+          22,
+          29
+        ],
+        "color": "fur"
+      }
+    ]
+  },
+  "study.*": {
+    "regions": [
+      {
+        "rect": [
+          0,
+          0,
+          35,
+          16
+        ],
+        "color": "white"
+      }
+    ]
+  },
+  "eating.angry2": {
+    "regions": [
+      {
+        "rect": [
+          0,
+          26,
+          35,
+          29
+        ],
+        "color": "brown"
+      }
+    ]
+  },
+  "bath.bath1": {
+    "regions": [
+      {
+        "rect": [
+          0,
+          22,
+          35,
+          29
+        ],
+        "color": "white"
+      }
+    ]
+  },
+  "bath.bath2": {
+    "regions": [
+      {
+        "rect": [
+          0,
+          22,
+          35,
+          29
+        ],
+        "color": "white"
+      }
+    ]
+  },
+  "bath.bathLook": {
+    "regions": [
+      {
+        "rect": [
+          0,
+          22,
+          35,
+          29
+        ],
+        "color": "white"
+      }
+    ]
+  },
+  "bath.*": {
+    "regions": [
+      {
+        "rect": [
+          0,
+          0,
+          4,
+          29
+        ],
+        "color": "blue",
+        "ink": true
+      }
+    ]
+  }
+}

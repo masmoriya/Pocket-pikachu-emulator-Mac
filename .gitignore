@@ -7,3 +7,9 @@
 img/recursos/ 
 img/img reales/ 
 img/*.psd
+# Native companion build outputs
+mac/.build/
+mac/.swiftpm/
+dist/
+.DS_Store
+__pycache__/

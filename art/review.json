@@ -1,0 +1,1686 @@
+{
+  "version": 1,
+  "status": "All character frames inspected as static contact sheets. Motion and palette polish remain pending.",
+  "frames": [
+    {
+      "id": "start.words",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "start.leftGiggle",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "start.rightGigle",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "start.pop1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "start.pop2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standLove.tailLeftDown",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standLove.tailLeftUp",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standLove.tailRightDown",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standLove.tailRightUp",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standLove.helloLeft",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standLove.helloRight",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standLike.left",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standLike.backRight",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standLike.backLeft",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standLike.right",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standLike.lookLeft",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standLike.lookRight",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standLike.happyStand1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standLike.happyStand2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standBasic.stand",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standBasic.look",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standBasic.extend",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standMad.stand",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standMad.extend",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standMad.look",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "standLeft",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "backFromLeft.fall",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "backFromLeft.hit",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "backFromLeft.dizzyLeft",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "backFromLeft.dizzyRight",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "walk.stand",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "walk.walking1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "walk.walking2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "happy1.happyStand",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "happy1.happyStartScream",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "happy1.scream1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "happy1.scream2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "happy2.start",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "happy2.rightStep",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "happy2.leftStep",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "tongueMad.start",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "tongueMad.tongue1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "tongueMad.tongue2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "tongueMad.tongue3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "heartSmiles.stand",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "heartSmiles.loveRight",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "heartSmiles.loveLeft",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "backflip.stand",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "backflip.charge",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "backflip.jump1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "backflip.jump2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "backflip.jump3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "letter.write1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "letter.write2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "letter.letter",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "piano.right",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "piano.left",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.enter1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.enter2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.enter3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.enter4",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.enter5",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.enter6",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.enter7",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.enter8",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.enter9",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway4",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway5",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway6",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway7",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway8",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway9",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway10",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway11",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway12",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway13",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway14",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway15",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway16",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway17",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flying.flyAway18",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving4",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving5",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving6",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving7",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving8",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving9",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving10",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving11",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving12",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving13",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving14",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving15",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving16",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "diving.diving17",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft4",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft5",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft6",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft7",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft8",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft9",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft10",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft11",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft12",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft13",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft14",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft15",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft16",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft17",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingLeft18",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight4",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight5",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight6",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight7",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight8",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight9",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight10",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight11",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight12",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight13",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight14",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight15",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight16",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight17",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "rollingBall.rollingRight18",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.auxStep1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.auxStep2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.auxStand",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.auxStepRight1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.auxStepRight2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.auxStandRight",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft4",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft5",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft6",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft7",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft8",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft9",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft10",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft11",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft12",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft13",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft14",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft15",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft16",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft17",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft18",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft19",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft20",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft21",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft22",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornLeft23",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight4",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight5",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight6",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight7",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight8",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight9",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight10",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight11",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight12",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight13",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight14",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight15",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight16",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight17",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight18",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight19",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight20",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight21",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight22",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "horn.hornRight23",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "licking.lollypop1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "licking.lollypop2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "licking.lollypopFall",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "licking.icecream1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "licking.icecream2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "licking.icecreamFall",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "study.studyStand",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "study.studyAskHistory",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "study.studyAskMaths",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "study.studyAskEnglish",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "study.studyAnswerHistory",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "study.studyAnswerMaths",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "study.studyAnswerEnglish",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "study.studySleep1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "study.studySleep2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "study.studyAwake",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteAuxStand",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteAuxHop1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteAuxHop2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteAuxStandRight",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteAuxHopRight1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteAuxHopRight2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft4",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft5",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft6",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft7",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft8",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft9",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft10",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft11",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft12",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft13",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft14",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft15",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft16",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft17",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft18",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft19",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft20",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft21",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft22",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeft23",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeftFast1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeftFast2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeftFast3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeftFast4",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeftFast5",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeftFast6",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeftFast7",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteLeftFast8",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight4",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight5",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight6",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight7",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight8",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight9",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight10",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight11",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight12",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight13",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight14",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight15",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight16",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight17",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight18",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight19",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight20",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight21",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight22",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRight23",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRightFast1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRightFast2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRightFast3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRightFast4",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRightFast5",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRightFast6",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRightFast7",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRightFast8",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "flyingKite.kiteRightFast9",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "yoyo.yoyo1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "yoyo.yoyo2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "yoyo.yoyo3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "yoyo.yoyoDog1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "yoyo.yoyoDog2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "yoyo.yoyoDog3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "radioControl.radio1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "radioControl.radio2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "radioControl.radio3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "radioControl.radio4",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "radioControl.radio5",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "radioControl.radio6",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "radioControl.radio7",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "radioControl.radio8",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "radioControl.radio9",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "radioControl.radio10",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "computer.stand",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "computer.lookup",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "computer.tabtab",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "sandcastle.sand1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "sandcastle.sand2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "reading.sand1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "reading.sand2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "reading.nextPage",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "buildingBlocks.hold",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "buildingBlocks.try",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "buildingBlocks.holdTry",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "buildingBlocks.shake",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "buildingBlocks.fall",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "sleep.goingToSleep",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "sleep.enteringBed",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "sleep.sideSleep",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "sleep.sideSleep2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "sleep.frontSleep",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "sleep.frontSleep2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "sleep.backSleep",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "sleep.backSleep2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "eating.eatingToast",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "eating.nomnomToast",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "eating.nomnomToast2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "eating.eatingOnigiri",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "eating.nonomOnigiri",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "eating.nonomOnigiri2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "eating.eatingChopsticks",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "eating.nomnomChopsticks",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "eating.nomnomChopsticks2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "eating.angryOnigiri",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "eating.angryToast",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "eating.angry2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "eating.angry3",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "brushTeeth.brush1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "brushTeeth.brush2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "bath.shower1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "bath.shower2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "bath.showerLook",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "bath.bath1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "bath.bath2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "bath.bathLook",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "watchTV.stand1",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "watchTV.stand2",
+      "reviewed": false,
+      "staticInspected": true
+    },
+    {
+      "id": "watchTV.jump",
+      "reviewed": false,
+      "staticInspected": true
+    }
+  ],
+  "notes": [
+    "Preserves all original ink pixels and frame coordinates.",
+    "Clipped side outlines receive explicit edge closure for consistent fur fill.",
+    "A full motion review is still needed, particularly side-profile cheeks, small props, and moving scenes."
+  ]
+}
