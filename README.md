@@ -1,39 +1,85 @@
 # Pocket Pikachu Emulator
 
-- This is a web project made by a huge fan of this 90'S old toy, "pocket pikachu" only with JS
-- I'm trying to replicate it by reverse engineering, watching the behavior of mine and making it here.
-- I added the custom/new functionality to enable/disable the friendshipLevel dropdown.
-- Still in progress, is not finished yet!
-- Of course, this is a non-profit fan project, all rights to this content belong to its rightful creators.
+A fan-made browser recreation of the late-90s Pocket Pikachu walking toy. Visit **[pokpik.life](https://pokpik.life/)** to play, or download this repository and run it locally.
 
-<img src="img/eatingGif.gif" width="400" />
+This repository is a fork of [Alberto-rp’s Pocket Pikachu Emulator](https://github.com/Alberto-rp/Pocket-pikachu-emulator). Thank you to Alberto-rp for creating the original project that this work builds on.
 
-## Actual functionalities
-- Sleep Animation from 20/21PM to 8AM Hours (3 different possitions)
-- Eat Animations at 10, 12 and 18 hours (3 different animations, Bread, Onigiri and Chopsticks)
-- Greeting animations at 8, 12, 18 or 8, 12, 18, 19 depending total steps
-- Shower/Bathtub anim at 19/20PM
-- Brushing teeth animations after eating or shower. 
-- Play Animations randomly between 9-18 hours (SandCastle, BuildingBlocks, Reading, Playing-yoyo, Study-Maths, Study-History, Study-English, Sleep-Studying)
-- TV or RC or Computer Animations randomly between 18-19 hours (depending total steps)
-- Icecream or Lollypop Animations between 15-16 hours
-- Playing-yoyo or Fly-Kite Animations randomly between 16-18 hours
-- Clock Menu (without alarm)
-- Step Counter (Based on the shake button)
-- Settings Menu (Reset steps, Relation Dropdown and Difficulty Level setting)
-- Friendship-system (LEFT, MAD, OK, LIKE and LOVE states available)
-- Special hack if pik is in LEFT status and you shake at least 20 times: (He comes back)
-- Slot machine (with a special hack if you walk more than 150 steps or if you loose more than 5 times)
-- Gift Menu (COMPLETED) (With 11 differents animations depending the amount and friendship level)
-- State of the Relation/FriendShip status
-- NEW Relation/FriendShip dropdown could be disabled from the settings menu; ON by default
-- NEW Difficulty/Setting, setting the final goal of the tamagotchi, between 10K, 100K or 1M Steps (100K by default)
-- New animations is related to the total steps; Reach 150.000 or 300.000 (Different amount depending difficulty, 1500, 15.000 or 150.000 for example) <b>will show new animations</b>
-- When the limit (10K, 100K or 1M Steps) is reach, will appear the congrats Screen + Record screen
+<p align="center">
+  <img src="img/eatingGif.gif" width="320" alt="Animated preview of Pocket Pikachu eating" />
+</p>
 
-## links of interest
+> This is an independent, non-commercial fan project and is not affiliated with or endorsed by Nintendo, Creatures, GAME FREAK, or The Pokémon Company. Pokémon and related characters and artwork belong to their respective owners. This repository does not currently include a license granting rights to redistribute those assets; see the note under [Artwork and rights](#artwork-and-rights).
 
-- [Pocket Pikachu Emulator Online](http://www.pokpik.life/)
-- [Pocket Pikachu on wikipedia](https://en.wikipedia.org/wiki/Pok%C3%A9mon_Pikachu)
-- [Pocket Pikachu on Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Pikachu)
-- [Pocket Pikachu Instructions](http://www.bookmice.net/fleur/pikadirect.html)
+## Play online
+
+Open **[pokpik.life](https://pokpik.life/)** in a modern browser. The emulator runs in the page; there is no account or installer.
+
+## Download and run locally
+
+1. On GitHub, choose **Code → Download ZIP**, then unzip the download. Or clone the repository:
+
+   ```sh
+   git clone https://github.com/Alberto-rp/Pocket-pikachu-emulator.git
+   cd Pocket-pikachu-emulator
+   ```
+
+2. Open `index.html` in a modern browser.
+
+If your browser restricts local files, start a small local web server from the project folder instead:
+
+```sh
+python3 -m http.server 8000
+```
+
+Then visit [http://localhost:8000](http://localhost:8000).
+
+No build step or package installation is needed for the web emulator. The separate native macOS companion is documented in [`mac/README.md`](mac/README.md); it is a different app with its own requirements and distribution status.
+
+## What you can do
+
+- Watch Pikachu sleep, eat, greet you, bathe, brush his teeth, and play.
+- Choose activities such as reading, studying, building blocks, flying a kite, playing with a yo-yo, and more.
+- Shake the device to add steps and earn watts.
+- Track friendship through five moods, from away to love, and bring Pikachu back after he leaves.
+- Play the slot machine and give gifts with different reactions.
+- Set a step goal of 10,000, 100,000, or 1,000,000 steps and unlock milestone animations.
+- Use the clock, step counter, and settings menus.
+
+## Sprites, colors, and animation
+
+The animation library contains **622 source frames**: 335 character frames and 287 device/interface frames. The character contact sheets show every character pose across five pages; the color and monochrome atlases contain the complete extracted frame library. Click any image to open its full-size version.
+
+### Character sprite sheets
+
+<p align="center">
+  <a href="art/review-1.png"><img src="art/review-1.png" width="420" alt="Character sprite sheet 1 of 5" /></a>
+  <a href="art/review-2.png"><img src="art/review-2.png" width="420" alt="Character sprite sheet 2 of 5" /></a>
+  <a href="art/review-3.png"><img src="art/review-3.png" width="420" alt="Character sprite sheet 3 of 5" /></a>
+  <a href="art/review-4.png"><img src="art/review-4.png" width="420" alt="Character sprite sheet 4 of 5" /></a>
+  <a href="art/review-5.png"><img src="art/review-5.png" width="420" alt="Character sprite sheet 5 of 5" /></a>
+</p>
+
+### All extracted frames
+
+| Color frame atlas | Original monochrome frame atlas |
+| --- | --- |
+| [![Color sprite atlas](mac/Sources/PocketPikachu/Resources/color-atlas.png)](mac/Sources/PocketPikachu/Resources/color-atlas.png) | [![Monochrome sprite atlas](mac/Sources/PocketPikachu/Resources/mono-atlas.png)](mac/Sources/PocketPikachu/Resources/mono-atlas.png) |
+
+See [`art/contact-sheet.png`](art/contact-sheet.png) for a quick overview of animation groups and [`art/review-index.json`](art/review-index.json) for the character-sheet frame order. The atlas manifest and playback sequences are in [`mac/Sources/PocketPikachu/Resources/animations.json`](mac/Sources/PocketPikachu/Resources/animations.json).
+
+The web preview above is an animated GIF. GitHub README images can display GIFs, so you can also add your own short recordings or animation previews by committing a `.gif` and embedding it with Markdown, for example: `![Walking animation](path/to/walking.gif)`. Keep GIFs reasonably small so the README loads quickly.
+
+## About the project
+
+This is a personal fan recreation based on observing the original toy. It is not an official emulator, and its behavior may differ from the physical device. The project is provided as-is, with no warranty.
+
+## Artwork and rights
+
+The sprite sheets, animations, and Pokémon character art are derived from the original toy/emulator assets. Their inclusion here does not establish permission to redistribute or reuse them. Please do not republish the artwork, use it commercially, or treat this repository as granting rights to the underlying characters or assets. Permission for public redistribution has not been established; the maintainers should resolve the rights question before presenting the extracted art as a separately reusable public asset pack.
+
+## Links
+
+- [Play Pocket Pikachu Emulator](https://pokpik.life/)
+- [Original project repository](https://github.com/Alberto-rp/Pocket-pikachu-emulator)
+- [Pokémon Pikachu (Wikipedia)](https://en.wikipedia.org/wiki/Pok%C3%A9mon_Pikachu)
+- [Pocket Pikachu instructions](https://www.bookmice.net/fleur/pikadirect.html)
