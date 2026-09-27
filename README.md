@@ -1,4 +1,4 @@
-# Pocket Pikachu Emulator
+# Pocket Pikachu Emulator Mac
 
 A fan-made browser recreation of the late-90s Pocket Pikachu walking toy. Visit **[pokpik.life](https://pokpik.life/)** to play, or download this repository and run it locally.
 
@@ -19,8 +19,8 @@ Open **[pokpik.life](https://pokpik.life/)** in a modern browser. The emulator r
 1. On GitHub, choose **Code → Download ZIP**, then unzip the download. Or clone the repository:
 
    ```sh
-   git clone https://github.com/Alberto-rp/Pocket-pikachu-emulator.git
-   cd Pocket-pikachu-emulator
+   git clone https://github.com/masmoriya/Pocket-pikachu-emulator-Mac.git
+   cd Pocket-pikachu-emulator-Mac
    ```
 
 2. Open `index.html` in a modern browser.
@@ -49,7 +49,9 @@ No build step or package installation is needed for the web emulator. The separa
 
 The animation library contains **622 source frames**: 335 character frames and 287 device/interface frames. The character contact sheets show every character pose across five pages; the color and monochrome atlases contain the complete extracted frame library. Click any image to open its full-size version.
 
-### Character sprite sheets
+### Every character pose in color
+
+These five color sheets cover all 335 extracted character frames. Select a sheet to open the full-size image.
 
 <p align="center">
   <a href="art/review-1.png"><img src="art/review-1.png" width="420" alt="Character sprite sheet 1 of 5" /></a>
@@ -59,15 +61,31 @@ The animation library contains **622 source frames**: 335 character frames and 2
   <a href="art/review-5.png"><img src="art/review-5.png" width="420" alt="Character sprite sheet 5 of 5" /></a>
 </p>
 
-### All extracted frames
+### Complete frame atlases
 
 | Color frame atlas | Original monochrome frame atlas |
 | --- | --- |
 | [![Color sprite atlas](mac/Sources/PocketPikachu/Resources/color-atlas.png)](mac/Sources/PocketPikachu/Resources/color-atlas.png) | [![Monochrome sprite atlas](mac/Sources/PocketPikachu/Resources/mono-atlas.png)](mac/Sources/PocketPikachu/Resources/mono-atlas.png) |
 
-See [`art/contact-sheet.png`](art/contact-sheet.png) for a quick overview of animation groups and [`art/review-index.json`](art/review-index.json) for the character-sheet frame order. The atlas manifest and playback sequences are in [`mac/Sources/PocketPikachu/Resources/animations.json`](mac/Sources/PocketPikachu/Resources/animations.json).
+The color atlas includes the complete extracted frame library; character frames are colored and the device/interface frames retain their original monochrome appearance. See [`art/contact-sheet.png`](art/contact-sheet.png) for a quick overview of animation groups and [`art/review-index.json`](art/review-index.json) for the character-sheet frame order. The atlas manifest and playback sequences are in [`mac/Sources/PocketPikachu/Resources/animations.json`](mac/Sources/PocketPikachu/Resources/animations.json).
 
-The web preview above is an animated GIF. GitHub README images can display GIFs, so you can also add your own short recordings or animation previews by committing a `.gif` and embedding it with Markdown, for example: `![Walking animation](path/to/walking.gif)`. Keep GIFs reasonably small so the README loads quickly.
+### macOS animation gallery
+
+The macOS companion gallery compares the original monochrome sprite with its color version, lets you browse each activity, and steps through individual frames. This short GIF cycles through real gallery captures of eating, reading, and walking:
+
+<p align="center">
+  <a href="art/animation-gallery.gif"><img src="art/animation-gallery.gif" width="600" alt="Pocket Pikachu for Mac animation gallery cycling through eating, reading, and walking" /></a>
+</p>
+
+<details>
+  <summary>Open individual gallery screenshots</summary>
+
+  - [Walking](art/gallery-walking.png)
+  - [Eating onigiri](art/gallery-eating.png)
+  - [Reading](art/gallery-reading.png)
+</details>
+
+The macOS companion also offers a floating pet, menu-bar sprite, color display, shell appearance, and placement controls. See [`mac/README.md`](mac/README.md) for its features and requirements.
 
 ## About the project
 
@@ -80,6 +98,7 @@ The sprite sheets, animations, and Pokémon character art are derived from the o
 ## Links
 
 - [Play Pocket Pikachu Emulator](https://pokpik.life/)
-- [Original project repository](https://github.com/Alberto-rp/Pocket-pikachu-emulator)
+- [This Mac fork on GitHub](https://github.com/masmoriya/Pocket-pikachu-emulator-Mac)
+- [Original project by Alberto-rp](https://github.com/Alberto-rp/Pocket-pikachu-emulator)
 - [Pokémon Pikachu (Wikipedia)](https://en.wikipedia.org/wiki/Pok%C3%A9mon_Pikachu)
 - [Pocket Pikachu instructions](https://www.bookmice.net/fleur/pikadirect.html)
