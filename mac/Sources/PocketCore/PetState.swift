@@ -51,6 +51,44 @@ public enum MenuBarStyle: String, Codable, CaseIterable, Sendable {
     }
 }
 
+public struct DailyActivity: Codable, Equatable, Identifiable, Sendable {
+    public var id: UUID
+    public var minute: Int
+    public var activity: String
+    public init(id: UUID = UUID(), minute: Int, activity: String) {
+        self.id = id; self.minute = min(1439, max(0, minute)); self.activity = activity
+    }
+}
+public enum RoutineMode: String, Codable, CaseIterable, Sendable {
+    case free, scheduled
+    public var label: String { self == .free ? "Free play" : "Daily schedule" }
+}
+public enum DailyRoutine {
+    public static let defaults = [
+        DailyActivity(minute: 0, activity: "sleep"),
+        DailyActivity(minute: 360, activity: "love"),
+        DailyActivity(minute: 420, activity: "walking"),
+        DailyActivity(minute: 480, activity: "computer"),
+        DailyActivity(minute: 660, activity: "sleep"),
+        DailyActivity(minute: 720, activity: "blocks"),
+        DailyActivity(minute: 900, activity: "icecream"),
+        DailyActivity(minute: 960, activity: "walking"),
+        DailyActivity(minute: 1020, activity: "reading"),
+        DailyActivity(minute: 1260, activity: "sleep")
+    ]
+    public static func entries(in state: PetState) -> [DailyActivity] {
+        state.dailySchedule ?? defaults
+    }
+    public static func activity(in entries: [DailyActivity], at date: Date, calendar: Calendar = .current) -> String? {
+        let minute = calendar.component(.hour, from: date) * 60 + calendar.component(.minute, from: date)
+        return entries.filter { $0.minute <= minute }.max { $0.minute < $1.minute }?.activity
+            ?? entries.max { $0.minute < $1.minute }?.activity
+    }
+    public static func date(for entry: DailyActivity, on date: Date, calendar: Calendar = .current) -> Date {
+        calendar.date(bySettingHour: entry.minute / 60, minute: entry.minute % 60, second: 0, of: date) ?? date
+    }
+}
+
 public struct PetState: Codable, Sendable {
     // Optional so existing saved companions decode without a migration.
     public var menuBarStyle: MenuBarStyle? = nil
@@ -59,6 +97,8 @@ public struct PetState: Codable, Sendable {
     public var selectedActivity: String? = nil
     // Nil preserves a smooth migration for existing saved state; new installs cycle by default.
     public var cycleActivitiesOnClick: Bool? = nil
+    public var routineMode: RoutineMode? = nil
+    public var dailySchedule: [DailyActivity]? = nil
     public var progression = Progression()
     public var colored = true
     public var shell = false

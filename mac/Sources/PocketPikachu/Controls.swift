@@ -25,6 +25,13 @@ struct ActionsView: View {
                 ForEach(model.activityChoices) { Text($0.label).tag($0.id) }
             }
             HStack {
+                Picker("Routine", selection: Binding(get: { model.routineMode }, set: model.setRoutineMode)) {
+                    ForEach(RoutineMode.allCases, id: \.self) { Text($0.label).tag($0) }
+                }
+                Button("Edit…") { model.onOpenSchedule?() }
+                    .disabled(model.pet.selectedActivity != nil)
+            }
+            HStack {
                 Stepper("Gift: \(gift) W", value: $gift, in: 0...999)
                 Button("Give") { model.give(Int64(gift)) }.disabled(Int64(gift) > model.pet.progression.watts)
             }
@@ -36,6 +43,54 @@ struct ActionsView: View {
         }.padding(16).frame(width: 310).font(.custom("Verdana", size: 12))
     }
 }
+
+struct ScheduleView: View {
+    @ObservedObject var model: CompanionModel
+    @State private var entries: [DailyActivity]
+    init(model: CompanionModel) { self.model = model; _entries = State(initialValue: model.dailySchedule) }
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("Daily schedule")
+                Spacer()
+                Button("Add time") { addEntry() }
+            }
+            List {
+                ForEach($entries) { $entry in
+                    HStack {
+                        DatePicker("", selection: timeBinding(for: $entry), displayedComponents: .hourAndMinute)
+                            .labelsHidden().frame(width: 78)
+                        Picker("Activity", selection: $entry.activity) {
+                            ForEach(model.activityChoices) { Text($0.label).tag($0.id) }
+                        }
+                        Button { entries.removeAll { $0.id == entry.id } } label: {
+                            Image(systemName: "minus.circle").foregroundStyle(.secondary)
+                        }.buttonStyle(.plain).help("Remove time")
+                    }
+                }
+            }
+            HStack {
+                Text("Pikachu keeps each activity until the next time.").foregroundStyle(.secondary)
+                Spacer()
+                Button("Save") { model.saveSchedule(entries) }
+                    .keyboardShortcut(.defaultAction)
+            }
+        }.padding(14).frame(width: 380, height: 440).font(.custom("Verdana", size: 12))
+    }
+    private func addEntry() {
+        let choices = model.activityChoices
+        guard let first = choices.first(where: { $0.id == "reading" })?.id ?? choices.first?.id else { return }
+        let minute = min(1439, ((Calendar.current.component(.hour, from: .now) * 60 + Calendar.current.component(.minute, from: .now) + 59) / 60) * 60)
+        entries.append(DailyActivity(minute: minute, activity: first))
+    }
+    private func timeBinding(for entry: Binding<DailyActivity>) -> Binding<Date> {
+        Binding(get: { DailyRoutine.date(for: entry.wrappedValue, on: .now) }, set: { date in
+            let components = Calendar.current.dateComponents([.hour, .minute], from: date)
+            entry.wrappedValue.minute = (components.hour ?? 0) * 60 + (components.minute ?? 0)
+        })
+    }
+}
+
 struct SettingsView: View {
     @ObservedObject var model: CompanionModel
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled

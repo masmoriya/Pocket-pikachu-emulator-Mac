@@ -147,11 +147,37 @@ final class PetTests: XCTestCase {
         XCTAssertEqual(components.count, Set(components).count)
         let choicePlayer = AnimationActivityPlayer(sequences: definitions.sequences)
         let choices = choicePlayer.choices(in: library.clips)
+        XCTAssertEqual(choices.map(\.label), choices.map(\.label).sorted {
+            $0.localizedStandardCompare($1) == .orderedAscending
+        })
+        let expectedIDs = Set(library.clips.filter { !AnimationClipGroups.transient.contains($0.id) }
+            .map { choicePlayer.canonicalActivity($0.id) })
+        XCTAssertEqual(Set(choices.map(\.id)), expectedIDs)
+        XCTAssertTrue(choices.contains { $0.id == "bath" })
+        XCTAssertTrue(choices.contains { $0.id == "shower" })
+        XCTAssertFalse(choices.contains { AnimationClipGroups.transient.contains($0.id) })
         XCTAssertTrue(choices.contains { $0.id == "sleep" })
         XCTAssertTrue(choices.contains { $0.id == "computer" })
         XCTAssertFalse(choices.contains { ["bed", "typing", "sleep-front", "sleep-side", "sleep-back"].contains($0.id) })
         XCTAssertEqual(choicePlayer.canonicalActivity("typing"), "computer")
         XCTAssertEqual(choicePlayer.canonicalActivity("sleep-front"), "sleep")
+        let libraryClips = Dictionary(uniqueKeysWithValues: library.clips.map { ($0.id, $0) })
+        let bath = try XCTUnwrap(definitions.sequences.first { $0.id == "bath" })
+        let shower = try XCTUnwrap(definitions.sequences.first { $0.id == "shower" })
+        XCTAssertEqual(bath.loop, ["bath"])
+        XCTAssertEqual(shower.loop, ["shower"])
+        XCTAssertTrue(bath.sample(at: 10, clips: libraryClips).frame.hasPrefix("bath.bath"))
+        XCTAssertTrue(shower.sample(at: 10, clips: libraryClips).frame.hasPrefix("bath.shower"))
+        XCTAssertEqual(ContextualReaction.clipID(for: "bath"), "bathLook")
+        XCTAssertEqual(ContextualReaction.clipID(for: "shower"), "showerLook")
+        XCTAssertEqual(ContextualReaction.clipID(for: "sleep"), "look")
+        XCTAssertEqual(ContextualReaction.clipID(for: "studySleep"), "wakeStudy")
+        for activity in ["bath", "shower", "sleep", "studySleep"] {
+            let reactionID = ContextualReaction.clipID(for: activity)
+            let reaction = try XCTUnwrap(libraryClips[reactionID])
+            XCTAssertFalse(reaction.loop)
+            XCTAssertGreaterThan(reaction.duration, 0)
+        }
     }
     private func testClip(_ id: String, _ frames: [String], duration: Double) -> AnimationClip {
         AnimationClip(id: id, label: id, source: "test", loop: true, loopStart: 0,

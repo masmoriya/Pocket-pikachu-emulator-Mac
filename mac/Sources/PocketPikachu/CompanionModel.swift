@@ -36,8 +36,11 @@ import PocketCore
     var onPlacementChange: (() -> Void)?
     var onOpenSettings: (() -> Void)?
     var onOpenGallery: (() -> Void)?
+    var onOpenSchedule: (() -> Void)?
     var pet: PetState { saved.pet }
     var selectedActivity: String? { pet.selectedActivity.map(activityPlayer.canonicalActivity) }
+    var routineMode: RoutineMode { pet.routineMode ?? .free }
+    var dailySchedule: [DailyActivity] { DailyRoutine.entries(in: pet).sorted { $0.minute < $1.minute } }
     var activityLabel: String { activityPlayer.label(for: activity, clips: clips) }
     var activityChoices: [AnimationActivityChoice] { activityPlayer.choices(in: library.clips) }
     var animating: Bool { !hidden && !sleepingDisplay }
@@ -101,6 +104,22 @@ import PocketCore
         saved.pet.friendship = value; interact()
         if saved.pet.selectedActivity == nil && temporaryUntil == nil { switchActivity(value.idle) }
     }
+    func setRoutineMode(_ mode: RoutineMode) {
+        update { $0.routineMode = mode }
+        if mode == .scheduled, pet.selectedActivity == nil { applyScheduledActivity(at: .now) }
+    }
+    func addScheduleEntry() {
+        let choices = activityChoices
+        guard let initial = choices.first(where: { $0.id == "reading" })?.id ?? choices.first?.id else { return }
+        var entries = dailySchedule
+        let nextMinute = min(1439, ((Calendar.current.component(.hour, from: .now) * 60 + Calendar.current.component(.minute, from: .now) + 59) / 60) * 60)
+        entries.append(DailyActivity(minute: nextMinute, activity: initial))
+        saveSchedule(entries)
+    }
+    func saveSchedule(_ entries: [DailyActivity]) {
+        update { $0.dailySchedule = entries.sorted { $0.minute < $1.minute } }
+        if routineMode == .scheduled && pet.selectedActivity == nil { applyScheduledActivity(at: .now) }
+    }
     func react(_ id: String, seconds: Double? = nil) {
         if temporaryUntil == nil { returnActivity = activity }
         interact()
@@ -113,6 +132,10 @@ import PocketCore
             guard !Task.isCancelled else { return }
             self?.tick()
         }
+    }
+    func disturb() {
+        guard temporaryUntil == nil else { return }
+        react(ContextualReaction.clipID(for: activity))
     }
     func give(_ amount: Int64) {
         guard saved.pet.progression.spend(amount) else { return }
@@ -188,6 +211,10 @@ import PocketCore
             switchActivity(pet.selectedActivity ?? resume)
         }
         guard pet.selectedActivity == nil else { return }
+        if routineMode == .scheduled {
+            applyScheduledActivity(at: .now)
+            return
+        }
         if let resting = PetBehavior.restingActivity(state: pet, now: .now) {
             if activity != activityPlayer.canonicalActivity(resting) { switchActivity(resting) }
             return
@@ -201,6 +228,12 @@ import PocketCore
             switchActivity(options.randomElement()!)
             nextActivity = .now.addingTimeInterval(Double.random(in: 45...120))
         }
+    }
+
+    private func applyScheduledActivity(at date: Date) {
+        guard let scheduled = DailyRoutine.activity(in: dailySchedule, at: date) else { return }
+        let next = activityPlayer.canonicalActivity(scheduled)
+        if activity != next { switchActivity(next) }
     }
     func sample(at date: Date = .now) -> AnimationSample {
         let elapsed = max(0, date.timeIntervalSince(activityStarted))

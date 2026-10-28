@@ -6,6 +6,27 @@ public struct AnimationActivityChoice: Identifiable, Sendable {
     public init(id: String, label: String) { self.id = id; self.label = label }
 }
 
+public enum AnimationClipGroups {
+    public static let transient: Set<String> = [
+        "loveHello", "likeHello", "return", "start", "tongue", "yawn", "happy", "hearts",
+        "tableToast", "tableOnigiri", "tableRice", "page", "dropLolly", "dropIcecream",
+        "blocksFall", "wakeStudy", "look", "madLook", "showerLook", "bathLook", "pop", "bed"
+    ]
+    public static let intro: Set<String> = ["start", "pop"]
+}
+
+public enum ContextualReaction {
+    public static func clipID(for activity: String) -> String {
+        switch activity {
+        case "bath": return "bathLook"
+        case "shower": return "showerLook"
+        case "studySleep": return "wakeStudy"
+        case "sleep": return "look"
+        default: return "madLook"
+        }
+    }
+}
+
 /// Maps individual gallery clips to logical activities and samples their connected playback.
 public struct AnimationActivityPlayer: Sendable {
     private let sequences: [String: AnimationSequence]
@@ -32,9 +53,10 @@ public struct AnimationActivityPlayer: Sendable {
         var seen = Set<String>()
         return clipOrder.compactMap { clip in
             let id = canonicalActivity(clip.id)
+            guard !AnimationClipGroups.transient.contains(clip.id) else { return nil }
             guard seen.insert(id).inserted else { return nil }
             return AnimationActivityChoice(id: id, label: sequences[id]?.label ?? clip.label)
-        }
+        }.sorted { $0.label.localizedStandardCompare($1.label) == .orderedAscending }
     }
 
     public mutating func switchActivity(to id: String, from currentID: String, elapsed: TimeInterval,

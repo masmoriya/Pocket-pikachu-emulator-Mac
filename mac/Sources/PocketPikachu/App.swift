@@ -25,6 +25,7 @@ import SwiftUI
     private let statusMenu = NSMenu()
     private var settings: NSWindow?
     private var gallery: NSWindow?
+    private var schedule: NSWindow?
     private var workspaceObservers: [NSObjectProtocol] = []
     private var statusRightClickMonitor: Any?
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -36,6 +37,7 @@ import SwiftUI
             companion = CompanionWindow(model: model)
             model.onOpenSettings = { [weak self] in self?.openSettings() }
             model.onOpenGallery = { [weak self] in self?.openGallery() }
+            model.onOpenSchedule = { [weak self] in self?.openSchedule() }
             let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
             item.button?.image = NSImage(systemSymbolName: "pawprint.fill", accessibilityDescription: "Pocket Pikachu")
             let menu = statusMenu
@@ -106,6 +108,11 @@ import SwiftUI
         guard let model else { return }
         if gallery == nil { gallery = makeWindow("Animation gallery", view: GalleryView(model: model)) }
         gallery?.makeKeyAndOrderFront(nil); NSApp.activate(ignoringOtherApps: true)
+    }
+    @objc func openSchedule() {
+        guard let model else { return }
+        if schedule == nil { schedule = makeWindow("Pikachu’s day", view: ScheduleView(model: model)) }
+        schedule?.makeKeyAndOrderFront(nil); NSApp.activate(ignoringOtherApps: true)
     }
     private func makeWindow<V: View>(_ title: String, view: V) -> NSWindow {
         let controller = NSHostingController(rootView: view)

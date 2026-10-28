@@ -9,6 +9,10 @@ struct GalleryView: View {
     @State private var showFrames = false
     private var clip: AnimationClip? { model.clips[selected] }
     private var steps: [AnimationStep] { clip?.steps ?? [] }
+    private var matchingClips: [AnimationClip] {
+        model.library.clips.filter { search.isEmpty || $0.label.localizedCaseInsensitiveContains(search) }
+            .sorted { $0.label.localizedStandardCompare($1.label) == .orderedAscending }
+    }
     var body: some View {
         HSplitView {
             VStack(alignment: .leading) {
@@ -16,12 +20,20 @@ struct GalleryView: View {
                 Toggle("Individual frames", isOn: $showFrames)
                 List(selection: $selected) {
                     if showFrames {
-                        ForEach(model.library.frames.filter { search.isEmpty || $0.id.localizedCaseInsensitiveContains(search) }) { frame in
+                        ForEach(model.library.frames.filter { search.isEmpty || $0.id.localizedCaseInsensitiveContains(search) }
+                            .sorted { $0.id.localizedStandardCompare($1.id) == .orderedAscending }) { frame in
                             Text(frame.id).tag(frame.id)
                         }
                     } else {
-                        ForEach(model.library.clips.filter { search.isEmpty || $0.label.localizedCaseInsensitiveContains(search) }) { clip in
-                            Text(clip.label).tag(clip.id)
+                        Section("Activities") {
+                            ForEach(matchingClips.filter { !AnimationClipGroups.transient.contains($0.id) }) { clip in
+                                Text(clip.label).tag(clip.id)
+                            }
+                        }
+                        Section("Reactions and start effects") {
+                            ForEach(matchingClips.filter { AnimationClipGroups.transient.contains($0.id) }) { clip in
+                                Text(clip.label).tag(clip.id)
+                            }
                         }
                     }
                 }
@@ -48,7 +60,9 @@ struct GalleryView: View {
                             .keyboardShortcut(.rightArrow, modifiers: [])
                     }
                     Text("Frame \(playback.index + 1) of \(steps.count)").foregroundStyle(.secondary)
-                    Button("Use this activity") { model.select(selected) }
+                    if !AnimationClipGroups.transient.contains(selected) {
+                        Button("Use this activity") { model.select(selected) }
+                    }
                 }
             }.padding(20).frame(minWidth: 470, maxWidth: .infinity, maxHeight: .infinity)
         }

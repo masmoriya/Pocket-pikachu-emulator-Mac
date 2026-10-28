@@ -108,7 +108,9 @@ import PocketCore
         if dragged { window?.setFrameOrigin(NSPoint(x: origin.x + cursor.x - down.x, y: origin.y + cursor.y - down.y)) }
     }
     override func mouseUp(with event: NSEvent) {
-        if dragged { moved?() } else { clickPet() }
+        if dragged { moved?() }
+        else if event.modifierFlags.contains(.option) { model.disturb() }
+        else { clickPet() }
         down = nil; origin = nil
     }
     override func rightMouseDown(with event: NSEvent) { clicked?() }
