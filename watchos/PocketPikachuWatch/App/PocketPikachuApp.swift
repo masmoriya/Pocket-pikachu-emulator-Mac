@@ -3,12 +3,12 @@ import SwiftUI
 @main struct PocketPikachuApp: App {
     @StateObject private var model = CompanionModel()
     @Environment(\.scenePhase) private var phase
-    @State private var path = NavigationPath()
+    @State private var showingMenu = false
 
     var body: some Scene {
         WindowGroup {
-            NavigationStack(path: $path) {
-                if model.isLoaded { ClockView(model: model, path: $path) }
+            Group {
+                if model.isLoaded { ClockView(model: model, showingMenu: $showingMenu) }
                 else {
                     VStack {
                         Text("Save needs attention")
@@ -18,8 +18,18 @@ import SwiftUI
                 }
             }
             .preferredColorScheme(.dark)
+            .sheet(isPresented: $showingMenu) {
+                NavigationStack {
+                    MenuView(model: model, returnToClock: { showingMenu = false })
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Close") { showingMenu = false }
+                            }
+                        }
+                }
+            }
             .onOpenURL { url in
-                if url.scheme == "pocketpikachu" { path = NavigationPath() }
+                if url.scheme == "pocketpikachu" { showingMenu = false }
             }
             .task { await model.synchronize() }
             .onChange(of: phase) { _, value in

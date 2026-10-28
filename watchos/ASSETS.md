@@ -101,3 +101,7 @@ atlas backing; these numbers are budget estimates, not measured allocations.
 ImageIO/SwiftUI overhead and transient decode allocations require actual profiling.
 No full-atlas decode is performed per frame. Hardware battery usage, visual
 sharpness, first-launch timing, and Always-On wake behavior remain device checks.
+
+## App launcher icon
+
+The watch AppIcon asset is a byte-for-byte copy of `art/app-icon.png`, the same 1024px affectionate Pikachu icon used by the Mac packaging script. Xcode generates watch launcher sizes from this source; no new artwork is introduced.

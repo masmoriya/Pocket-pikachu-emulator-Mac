@@ -9,7 +9,7 @@
 - All 25 real XCTest cases passed through `tools/run-core-tests.py` using the active Swift 6 compiler (6 clock, 5 gameplay, 5 persistence, 9 reconciliation). Execution took 0.428 seconds on the host; the 50,000-record overlap case took 0.379 seconds. This is not a Series 6 performance measurement.
 - Normal `swift test` stalled in Apple's SDK stat-cache I/O and was stopped. The direct compiler fallback builds the unchanged production module and XCTest files, asserts the expected test count, and checks success. SwiftPM's own runner remains unverified.
 - The installed environment has Xcode 27.1 and watchOS 27.0 SDK. Deployment minimum remains watchOS 26.0. There is no installed watch simulator runtime.
-- Follow-up verified physical Apple Watch Series 6 (Watch6,3), watchOS 26.5, Developer Mode enabled. FILMCLUSIVE INC. signed build installed successfully over the network. Initial launch was blocked by the watch passcode lock; no device was erased.
+- Follow-up verified physical Apple Watch Series 6 (Watch6,3), watchOS 26.5, Developer Mode enabled. FILMCLUSIVE INC. signed build installed successfully over the network. After the user unlocked the watch, devicectl launch succeeded. Reading the on-device save verified rate1, color, tap cycling, free play, small sprites, and love-level friendship. No device was erased.
 
 ## Required hardware checks
 
@@ -36,3 +36,7 @@ The user's explicit instruction allowed complications before the PRD's physical-
 ## Settings follow-up
 
 30 core XCTest cases pass, including legacy-save migration, configurable rate changes, duplicate snapshots, partial remainders, and schedule rollover/manual override. Animation regression now passes 3,577 assertions, including repeated finite selections. Device-specific Debug builds use ONLY_ACTIVE_ARCH to match the local Swift package architecture on Series 6. Device Hub cannot remotely display watchOS 26.5; its screen-sharing feature requires watchOS 27 or later, so visual/device interaction checks need the watch user.
+
+## Fullscreen acceptance update
+
+The user confirmed the original clock/animation worked on Series 6, then reported the small sprite and inaccessible ellipsis. Build2 replaces that layout with a full-width sprite and a 44-point button opening a dedicated menu sheet. Clock defaults off; a configurable daily step-goal ring replaces plain step text. The launcher uses the exact Mac icon.31 core tests pass, the signed device build passes, and the update installed/launched successfully. Reading the actual device save confirms sprite100%, showClockfalse, goal6000, rate1, and layoutVersion1. Visual confirmation of the revised menu/layout is still pending.

@@ -15,13 +15,19 @@ struct SettingsView: View {
                 Text("Large").tag(100)
             }
             Toggle("Color", isOn: setting(\.colored))
+            Toggle("Show clock", isOn: setting(\.showClock))
             Picker("Clock", selection: setting(\.clockFormat)) {
                 Text("System").tag(GameSettings.ClockFormat.system)
                 Text("12-hour").tag(GameSettings.ClockFormat.twelveHour)
                 Text("24-hour").tag(GameSettings.ClockFormat.twentyFourHour)
             }
             Toggle("Haptics", isOn: setting(\.hapticsEnabled))
-            Toggle("Steps", isOn: setting(\.showSteps))
+            Toggle("Step goal ring", isOn: setting(\.showSteps))
+            Picker("Daily step goal", selection: setting(\.dailyStepGoal)) {
+                ForEach([1000, 2000, 3000, 4000, 5000, 6000, 7500, 10000, 15000, 20000], id: \.self) {
+                    Text($0.formatted()).tag($0)
+                }
+            }
             Toggle("Watts", isOn: setting(\.showWatts))
             Toggle("Reduce animation", isOn: setting(\.reducedAnimation))
             HealthConnectionView(model: model, steps: model.steps)

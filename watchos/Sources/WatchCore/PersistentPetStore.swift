@@ -89,6 +89,7 @@ public struct PersistentPetStore: Sendable {
               (0..<100).contains(state.stepRemainder),
               GameSettings.stepRates.contains(state.settings.stepsPerWatt),
               (60...100).contains(state.settings.spriteSize),
+              (100...100_000).contains(state.settings.dailyStepGoal),
               state.settings.dailySchedule.count <= 48,
               state.settings.dailySchedule.allSatisfy({ (0..<1440).contains($0.minute) && !$0.activity.isEmpty }),
               state.transactions.count <= GameEngine.historyLimit,

@@ -142,7 +142,9 @@ for target, source, product, info, entitlement in [
             "INFOPLIST_FILE": quote("Config/" + info), "CODE_SIGN_ENTITLEMENTS": quote("Config/" + entitlement),
             "SKIP_INSTALL": "NO" if is_app else "YES", "SWIFT_EMIT_LOC_STRINGS": "YES",
         }
-        if not is_app:
+        if is_app:
+            settings["ASSETCATALOG_COMPILER_APPICON_NAME"] = "AppIcon"
+        else:
             settings["APPLICATION_EXTENSION_API_ONLY"] = "YES"
         obj(f"{target} {mode}", "XCBuildConfiguration", fields({"buildSettings": "{ " + " ".join(f"{key} = {value};" for key, value in settings.items()) + " }", "name": mode}))
 

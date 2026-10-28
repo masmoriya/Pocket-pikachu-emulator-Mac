@@ -10,7 +10,7 @@ final class SettingsAndRoutineTests: XCTestCase {
         original.stepRemainder = 19
         var json = try XCTUnwrap(JSONSerialization.jsonObject(with: JSONEncoder().encode(original)) as? [String: Any])
         var settings = try XCTUnwrap(json["settings"] as? [String: Any])
-        for key in ["stepsPerWatt", "cycleActivitiesOnTap", "spriteSize", "routineMode", "dailySchedule", "selectedActivity"] {
+        for key in ["stepsPerWatt", "cycleActivitiesOnTap", "spriteSize", "routineMode", "dailySchedule", "selectedActivity", "showClock", "dailyStepGoal", "layoutVersion"] {
             settings.removeValue(forKey: key)
         }
         json["settings"] = settings
@@ -27,6 +27,35 @@ final class SettingsAndRoutineTests: XCTestCase {
         try store.save(migrated)
         XCTAssertEqual(try store.load(), migrated)
         XCTAssertEqual(PetState(now: now).settings.stepsPerWatt, 1)
+    }
+
+    func testFullscreenMigrationRunsOnceAndPreservesProgressAndSettings() throws {
+        var state = PetState(now: now)
+        state.settings.spriteSize = 60
+        state.settings.stepsPerWatt = 1
+        state.settings.hapticsEnabled = false
+        state.wattsBalance = 725
+        var json = try XCTUnwrap(JSONSerialization.jsonObject(with: JSONEncoder().encode(state)) as? [String: Any])
+        var settings = try XCTUnwrap(json["settings"] as? [String: Any])
+        for key in ["layoutVersion", "showClock", "dailyStepGoal"] { settings.removeValue(forKey: key) }
+        json["settings"] = settings
+        var migrated = try JSONDecoder().decode(PetState.self, from: JSONSerialization.data(withJSONObject: json))
+        XCTAssertEqual(migrated.settings.spriteSize, 100)
+        XCTAssertEqual(migrated.settings.layoutVersion, 1)
+        XCTAssertFalse(migrated.settings.showClock)
+        XCTAssertEqual(migrated.settings.dailyStepGoal, 6000)
+        XCTAssertEqual(migrated.settings.stepsPerWatt, 1)
+        XCTAssertFalse(migrated.settings.hapticsEnabled)
+        XCTAssertEqual(migrated.wattsBalance, 725)
+        XCTAssertEqual(migrated.createdAt, state.createdAt)
+        migrated.settings.spriteSize = 60
+        migrated.settings.showClock = true
+        migrated.settings.dailyStepGoal = 10000
+        let reopened = try JSONDecoder().decode(PetState.self, from: JSONEncoder().encode(migrated))
+        XCTAssertEqual(reopened.settings.spriteSize, 60)
+        XCTAssertTrue(reopened.settings.showClock)
+        XCTAssertEqual(reopened.settings.dailyStepGoal, 10000)
+        XCTAssertEqual(reopened, migrated)
     }
 
     func testRateChangeRetainsPartialStepsButDoesNotRewardUntilNewWalking() throws {

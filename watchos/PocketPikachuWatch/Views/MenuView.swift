@@ -4,14 +4,13 @@ import WatchCore
 struct MenuView: View {
     @ObservedObject var model: CompanionModel
     var returnToClock: () -> Void
-    @Environment(\.dismiss) private var dismiss
     var body: some View {
         List {
             Text(model.state.mood.label).foregroundStyle(.secondary)
             NavigationLink("Give gift") { GiftView(model: model, returnToClock: returnToClock) }
-            Button("Pet") { model.interact("hearts"); dismiss() }
-            Button("Feed") { model.interact("toast"); dismiss() }
-            Button("Live freely") { model.selectActivity(nil); dismiss() }
+            Button("Pet") { model.interact("hearts"); returnToClock() }
+            Button("Feed") { model.interact("toast"); returnToClock() }
+            Button("Live freely") { model.selectActivity(nil); returnToClock() }
             Picker("Friendship", selection: Binding(get: { model.state.mood }, set: model.setFriendship)) {
                 ForEach(PetMood.allCases, id: \.self) { Text($0.label).tag($0) }
             }

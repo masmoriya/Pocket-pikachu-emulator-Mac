@@ -41,7 +41,7 @@ import WidgetKit
                 // watch progress and preferences always take precedence.
                 loaded.friendshipPoints = 3001
                 loaded.currentAnimation = loaded.mood.animation
-                loaded.settings.spriteSize = 60
+                loaded.settings.spriteSize = 100
             }
             restoreExpiredReaction(in: &loaded)
             DailyRoutine.apply(at: .now, state: &loaded)

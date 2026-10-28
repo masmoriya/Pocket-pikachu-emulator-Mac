@@ -27,3 +27,5 @@ All meaningful state changes save immediately; scene transitions publish present
 ## Configurable companion
 
 GameSettings decodes original schema-1 saves with a 20-step rate; new settings default to one step per watt. Rate changes never re-credit an unchanged Health snapshot. Unconverted step counts carry across changes and convert once new eligible steps arrive. Clock minute updates and foreground reconciliation apply daily routines; manual activity selection pins playback until Live freely. No background schedule timer is introduced. Mac window/menu-bar, Codex-token filesystem, login, and desktop shell controls are not watch features.
+
+The fullscreen layout uses a bounded geometry surface with independent controls over the sprite; menu presentation is a sheet with its own navigation stack, so it cannot be pushed outside the display by sprite layout. Layout version1 upgrades the previously installed small sprite setting to full size once, then respects later size changes. Missing clock visibility defaults off. Daily step-goal ring uses the existing reconciled step count and preserves unavailable data as an em dash rather than claiming zero progress.

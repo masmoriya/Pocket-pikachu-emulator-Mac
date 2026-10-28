@@ -6,6 +6,9 @@ public struct GameSettings: Codable, Equatable, Sendable {
     public var colored = true
     public var clockFormat: ClockFormat = .system
     public var hapticsEnabled = true
+    public var showClock = false
+    public var dailyStepGoal = 6000
+    public var layoutVersion = 1
     public var showSteps = true
     public var showWatts = true
     public var reducedAnimation = false
@@ -20,6 +23,7 @@ public struct GameSettings: Codable, Equatable, Sendable {
     private enum CodingKeys: String, CodingKey {
         case colored, clockFormat, hapticsEnabled, showSteps, showWatts, reducedAnimation
         case stepsPerWatt, cycleActivitiesOnTap, spriteSize, routineMode, dailySchedule, selectedActivity
+        case showClock, dailyStepGoal, layoutVersion
     }
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -32,7 +36,12 @@ public struct GameSettings: Codable, Equatable, Sendable {
         // Existing schema-1 companions retain their original earning rate.
         stepsPerWatt = try values.decodeIfPresent(Int64.self, forKey: .stepsPerWatt) ?? 20
         cycleActivitiesOnTap = try values.decodeIfPresent(Bool.self, forKey: .cycleActivitiesOnTap) ?? true
-        spriteSize = try values.decodeIfPresent(Int.self, forKey: .spriteSize) ?? 100
+        let savedLayoutVersion = try values.decodeIfPresent(Int.self, forKey: .layoutVersion) ?? 0
+        let savedSpriteSize = try values.decodeIfPresent(Int.self, forKey: .spriteSize) ?? 100
+        spriteSize = savedLayoutVersion < 1 ? 100 : savedSpriteSize
+        layoutVersion = max(1, savedLayoutVersion)
+        showClock = try values.decodeIfPresent(Bool.self, forKey: .showClock) ?? false
+        dailyStepGoal = try values.decodeIfPresent(Int.self, forKey: .dailyStepGoal) ?? 6000
         routineMode = try values.decodeIfPresent(RoutineMode.self, forKey: .routineMode) ?? .free
         dailySchedule = try values.decodeIfPresent([DailyActivity].self, forKey: .dailySchedule) ?? DailyRoutine.defaults
         selectedActivity = try values.decodeIfPresent(String.self, forKey: .selectedActivity)
