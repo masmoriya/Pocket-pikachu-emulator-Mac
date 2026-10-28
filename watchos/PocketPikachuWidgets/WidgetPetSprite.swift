@@ -1,5 +1,6 @@
 import ImageIO
 import SwiftUI
+import WidgetKit
 
 /// Reads only the saved frame. The widget never advances an animation or game state.
 struct WidgetPetSprite: View {
@@ -9,8 +10,12 @@ struct WidgetPetSprite: View {
     var body: some View {
         if let frame = WidgetSpriteAtlas.frame(frameID, colored: colored) {
             Image(decorative: frame, scale: 1)
-                .interpolation(.none)
+                .renderingMode(.original)
                 .resizable()
+                .interpolation(.none)
+                // Preserve pixel shading when the watch face tints complications.
+                // A flat alpha tint turns the opaque sprite into a silhouette.
+                .widgetAccentedRenderingMode(.desaturated)
                 .scaledToFit()
                 .accessibilityHidden(true)
         } else {
