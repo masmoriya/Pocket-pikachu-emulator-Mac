@@ -10,6 +10,10 @@ This repository is a fork of [Alberto-rp’s Pocket Pikachu Emulator](https://gi
 
 > This is an independent, non-commercial fan project and is not affiliated with or endorsed by Nintendo, Creatures, GAME FREAK, or The Pokémon Company. Pokémon and related characters and artwork belong to their respective owners. This repository does not currently include a license granting rights to redistribute those assets; see the note under [Artwork and rights](#artwork-and-rights).
 
+## Latest update: local Apple Watch support
+
+The repository now includes a standalone Apple Watch app for personal local development and use. It is not an App Store product and is not intended for sale through the Apple Store. It runs as a regular watch app; it cannot replace the system watch face. You can add Pikachu as a complication to a compatible watch face, but complications show a static, grayscale image rather than animation. You can choose which Pikachu image the complication displays. Tap the complication to open the app and see Pikachu animate, track steps and watts, and adjust the available settings. See [`watchos/README.md`](watchos/README.md) and [`watchos/INSTALLATION.md`](watchos/INSTALLATION.md) for details.
+
 ## Play online
 
 Open **[pokpik.life](https://pokpik.life/)** in a modern browser. The emulator runs in the page; there is no account or installer.
