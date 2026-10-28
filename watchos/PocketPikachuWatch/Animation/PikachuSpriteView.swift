@@ -30,8 +30,14 @@ struct PikachuSpriteView: View {
                     TimelineView(FrameSchedule(engine: engine, resumedAt: resumedAt, elapsed: elapsed)) { context in
                         sprite(engine.sample(elapsed: playbackTime(at: context.date)), library: library)
                     }
+                } else if isLuminanceReduced,
+                          !reducedMotion, !accessibilityReduceMotion {
+                    // watchOS controls delivery; no sub-minute work while dimmed.
+                    TimelineView(.everyMinute) { context in
+                        sprite(engine.ambientSample(at: context.date), library: library)
+                    }
                 } else {
-                    // No timeline exists while ambient, inactive, or reducing motion.
+                    // Outside Always-On and under Reduce Motion, keep a static pose.
                     sprite(engine.sample(elapsed: elapsed), library: library)
                 }
             } else {

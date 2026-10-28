@@ -14,9 +14,14 @@ struct ClockView: View {
     }
 
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                Color.black
+        VStack(spacing: 0) {
+            if model.state.settings.showClock {
+                DigitalClockView(format: model.state.settings.clockFormat)
+            }
+            if !dimmed { controls.frame(height: 36) }
+            GeometryReader { geometry in
+                let width = min(geometry.size.width, geometry.size.height * 36 / 30)
+                    * CGFloat(model.state.settings.spriteSize) / 100
                 Button { model.greet() } label: {
                     PikachuSpriteView(animationID: model.state.currentAnimation,
                         colored: model.state.settings.colored,
@@ -27,7 +32,7 @@ struct ClockView: View {
                             || (model.state.settings.selectedActivity == nil
                                 && model.state.currentAnimation == scheduledActivity))
                         .id(model.animationToken)
-                        .frame(width: geometry.size.width * CGFloat(model.state.settings.spriteSize) / 100)
+                        .frame(width: width)
                         .frame(width: geometry.size.width, height: geometry.size.height)
                         .contentShape(Rectangle())
                 }
@@ -35,17 +40,7 @@ struct ClockView: View {
                 .accessibilityLabel("Pikachu, \(model.state.mood.label)")
                 .accessibilityHint(model.state.settings.cycleActivitiesOnTap ? "Tap to change activity" : "Tap to greet")
                 .disabled(dimmed)
-                VStack(spacing: 0) {
-                    if model.state.settings.showClock {
-                        DigitalClockView(format: model.state.settings.clockFormat)
-                            .padding(.top, 2)
-                    }
-                    Spacer(minLength: 0)
-                    if !dimmed { controls }
-                }
             }
-            .frame(width: geometry.size.width, height: geometry.size.height)
-            .clipped()
         }
         .background(.black)
         .opacity(dimmed ? 0.6 : 1)
@@ -53,28 +48,26 @@ struct ClockView: View {
 
     private var controls: some View {
         TimelineView(.everyMinute) { context in
-            HStack(alignment: .bottom, spacing: 4) {
+            HStack(spacing: 8) {
                 if model.state.settings.showSteps {
                     DailyStepRing(steps: model.displayedSteps(at: context.date), goal: model.state.settings.dailyStepGoal)
                 }
-                Spacer(minLength: 0)
                 if model.state.settings.showWatts {
                     Label(model.state.wattsBalance.formatted(), systemImage: "bolt.fill")
-                        .font(.caption2).lineLimit(1).minimumScaleFactor(0.7)
-                        .padding(.bottom, 14)
+                        .font(.system(size: 11)).lineLimit(1).minimumScaleFactor(0.7)
                         .accessibilityLabel("\(model.state.wattsBalance) watts")
                 }
                 Spacer(minLength: 0)
                 Button { showingMenu = true } label: {
                     Image(systemName: "ellipsis")
-                        .font(.system(size: 19, weight: .semibold))
-                        .frame(width: 44, height: 44)
+                        .font(.system(size: 13, weight: .medium))
+                        .frame(width: 44, height: 36)
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Activities and settings")
             }
-            .padding(.horizontal, 4)
+            .padding(.leading, 10)
             .privacySensitive()
             .onChange(of: context.date, initial: true) { _, date in
                 if phase == .active { model.tick(at: date) }

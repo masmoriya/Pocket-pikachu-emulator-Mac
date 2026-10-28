@@ -81,6 +81,26 @@ struct AnimationRegressionTests {
         expect(sample("greeting", greeting.duration + selected.duration * 2, idle: "hearts").frameIndex
                == sample("hearts", 0).frameIndex, "Greeting restores repeating finite selection")
 
+        let ambient = AnimationEngine(library: library, animationID: "walk")
+        let minute = Date(timeIntervalSince1970: 60 * 100)
+        expect(ambient.ambientSample(at: minute).frameIndex == ambient.ambientSample(at: minute.addingTimeInterval(59)).frameIndex,
+               "Ambient pose stays fixed within system minute")
+        expect(ambient.ambientSample(at: minute.addingTimeInterval(60)).remainingDuration == 60,
+               "Ambient pose only requests minute cadence")
+        let ambientGreeting = AnimationEngine(library: library, animationID: "greeting", idleAnimationID: "neutral")
+        expect(ambientGreeting.ambientSample(at: minute).returnedToIdle,
+               "Ambient transient uses resting activity rather than a frozen reaction")
+
+        for activity in ["kite", "history", "maths", "english", "left"] {
+            let clip = library.clip(for: activity)
+            let player = AnimationEngine(library: library, animationID: activity)
+            let allowed = Set(clip.steps.dropFirst(clip.loopStart).filter { $0.frame != "blank" }.map { index($0.frame) })
+            for value in 0..<(clip.steps.count * 2) {
+                expect(allowed.contains(player.ambientSample(at: Date(timeIntervalSince1970: Double(value * 60))).frameIndex),
+                       "Ambient \(activity) stays visible and skips intro")
+            }
+        }
+
         var malformed = try JSONSerialization.jsonObject(with: data) as! [String: Any]
         var clips = malformed["clips"] as! [[String: Any]]
         var steps = clips[0]["steps"] as! [[String: Any]]

@@ -34,6 +34,20 @@ struct AnimationEngine: Sendable {
         return sample(clip: clip, time: time, returned: false)
     }
 
+    /// A single pose per system minute; never a background animation loop.
+    func ambientSample(at date: Date) -> Sample {
+        let current = library.clip(for: animationID)
+        let clip = !current.loop && !repeatFinite ? library.clip(for: idleAnimationID) : current
+        // Avoid minute-long blank frames and replaying a looping activity's intro.
+        let repeating = clip.loop ? Array(clip.steps.dropFirst(clip.loopStart)) : clip.steps
+        let visible = repeating.filter { $0.frame != "blank" }
+        let poses = visible.isEmpty ? library.clip(for: "neutral").steps : visible
+        let minute = Int(date.timeIntervalSince1970 / 60)
+        let index = ((minute % poses.count) + poses.count) % poses.count
+        return Sample(frameIndex: library.frames[poses[index].frame]?.index ?? 0,
+                      remainingDuration: 60, returnedToIdle: clip.id != current.id)
+    }
+
     private func sample(clip: AnimationClip, time: TimeInterval, returned: Bool) -> Sample {
         var position = time
         var start = 0

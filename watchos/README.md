@@ -4,7 +4,7 @@ Standalone SwiftUI watch app, minimum watchOS 26.0. No iPhone companion, account
 
 Open `PocketPikachuWatch.xcodeproj` and select the PocketPikachuWatch scheme. See [installation](INSTALLATION.md) for signing and device setup.
 
-The launch screen puts full-width animated Pikachu first, with a daily step-goal ring and optional watts. The clock is off by default and can be enabled in Settings. Tap Pikachu to cycle activities (or greet when cycling is disabled); the 44-point ellipsis opens a separate menu sheet with activities, gifts, watts, settings, and an explicit Close button. Digital Crown scrolls native lists and the gift picker. Wrist-down presentation removes animation scheduling and hides secondary information. Return to Clock remains controlled by watchOS.
+The launch screen puts full-width animated Pikachu first, with a daily step-goal ring and optional watts. The clock is off by default and can be enabled in Settings. Tap Pikachu to cycle activities (or greet when cycling is disabled); the compact top ellipsis opens a separate menu sheet with activities, gifts, watts, settings, and an explicit Close button. Digital Crown scrolls native lists and the gift picker. Wrist-down presentation stops continuous animation, requests a new visible pose on each system minute, and hides secondary information. Reduce Motion stays static. Return to Clock remains controlled by watchOS.
 
 Settings include an optional clock, editable daily step goal, system/12/24-hour time, color/monochrome, haptics, visible counters, reduced animation, and Health connection. Connect Health explicitly requests step-reading access only. Opening the app or selecting Sync steps reconciles recorded walking. No invented steps appear when Health data is unavailable.
 
