@@ -6,6 +6,7 @@ struct PikachuSpriteView: View {
     var isActive = true
     var reducedMotion = false
     var idleAnimationID = "idle"
+    var repeatFinite = false
 
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.isLuminanceReduced) private var isLuminanceReduced
@@ -23,7 +24,7 @@ struct PikachuSpriteView: View {
         Group {
             if let library = AnimationLibrary.bundled {
                 let engine = AnimationEngine(
-                    library: library, animationID: animationID, idleAnimationID: idleAnimationID
+                    library: library, animationID: animationID, idleAnimationID: idleAnimationID, repeatFinite: repeatFinite
                 )
                 if shouldPlay {
                     TimelineView(FrameSchedule(engine: engine, resumedAt: resumedAt, elapsed: elapsed)) { context in

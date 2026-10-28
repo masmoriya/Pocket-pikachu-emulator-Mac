@@ -72,6 +72,15 @@ struct AnimationRegressionTests {
         expect(sample("walk", .infinity).frameIndex == sample("walk", 0).frameIndex,
                "Nonfinite time clamps to zero")
 
+        let repeating = AnimationEngine(library: library, animationID: "greeting", repeatFinite: true)
+        expect(repeating.sample(elapsed: greeting.duration * 2).frameIndex == sample("greeting", 0).frameIndex,
+               "Explicit finite activity repeats from first frame")
+        expect(!repeating.sample(elapsed: greeting.duration * 2).returnedToIdle,
+               "Explicit selection remains selected")
+        let selected = library.clip(for: "hearts")
+        expect(sample("greeting", greeting.duration + selected.duration * 2, idle: "hearts").frameIndex
+               == sample("hearts", 0).frameIndex, "Greeting restores repeating finite selection")
+
         var malformed = try JSONSerialization.jsonObject(with: data) as! [String: Any]
         var clips = malformed["clips"] as! [[String: Any]]
         var steps = clips[0]["steps"] as! [[String: Any]]

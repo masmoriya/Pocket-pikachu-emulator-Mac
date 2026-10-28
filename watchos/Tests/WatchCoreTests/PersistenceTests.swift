@@ -69,6 +69,7 @@ final class PersistenceTests: XCTestCase {
         let state = try XCTUnwrap(store.load())
         XCTAssertEqual(state.schemaVersion, 1)
         XCTAssertEqual(state.wattsBalance, 123)
+        XCTAssertEqual(state.settings.stepsPerWatt, 20)
         XCTAssertEqual(state.mood, .love)
         try store.save(state)
         XCTAssertEqual(try store.load(), state)

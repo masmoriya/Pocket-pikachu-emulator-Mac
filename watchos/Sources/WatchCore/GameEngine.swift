@@ -5,7 +5,6 @@ public enum GameError: Error, Equatable {
 }
 
 public enum GameEngine {
-    public static let stepsPerWatt: Int64 = 20
     public static let historyLimit = 200
     public static let giftDebounce: TimeInterval = 1
 

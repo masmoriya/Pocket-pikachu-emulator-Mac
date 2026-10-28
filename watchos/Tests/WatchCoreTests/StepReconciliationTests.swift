@@ -13,8 +13,14 @@ final class StepReconciliationTests: XCTestCase {
                                  through: start.addingTimeInterval(through), cursor: "cursor", state: &state)
     }
 
-    func testDuplicateSyncAndRemainderSurviveRoundTrip() throws {
+    func legacyState() -> PetState {
         var state = PetState(now: start)
+        state.settings.stepsPerWatt = 20
+        return state
+    }
+
+    func testDuplicateSyncAndRemainderSurviveRoundTrip() throws {
+        var state = legacyState()
         try sync([sample("a", 39), sample("a", 39)], &state)
         XCTAssertEqual(state.wattsBalance, 51)
         XCTAssertEqual(state.stepRemainder, 19)
@@ -27,7 +33,7 @@ final class StepReconciliationTests: XCTestCase {
     }
 
     func testOverlapUsesWatchThenPhoneOnlyForUncoveredPortion() throws {
-        var state = PetState(now: start)
+        var state = legacyState()
         try sync([sample("phone", 200, length: 200, priority: 1), sample("watch", 50)], &state)
         XCTAssertEqual(state.lifetimeStepsCredited, 150)
         XCTAssertEqual(state.wattsBalance, 57)
@@ -35,7 +41,7 @@ final class StepReconciliationTests: XCTestCase {
     }
 
     func testCorrectionsDeletionReplacementCannotReawardSpentWatts() throws {
-        var state = PetState(now: start)
+        var state = legacyState()
         try sync([sample("a", 100)], &state)
         try GameEngine.giveGift(amount: 55, requestID: "spent", roll: 1, now: start, state: &state)
         try sync([sample("a", 40)], &state)
@@ -50,7 +56,7 @@ final class StepReconciliationTests: XCTestCase {
     }
 
     func testWindowRetirementAndBackfillRemainIdempotent() throws {
-        var state = PetState(now: start)
+        var state = legacyState()
         try sync([sample("a", 100)], &state)
         try sync([sample("b", 40, offset: 100)], &state, offset: 100)
         XCTAssertEqual(state.lifetimeStepsCredited, 140)
@@ -67,7 +73,7 @@ final class StepReconciliationTests: XCTestCase {
         let midnight = calendar.startOfDay(for: start).addingTimeInterval(86400)
         let record = StepSample(id: "midnight", sourceID: "watch", sourcePriority: 0,
                                 start: midnight.addingTimeInterval(-60), end: midnight.addingTimeInterval(60), steps: 120)
-        var state = PetState(now: start)
+        var state = legacyState()
         try GameEngine.reconcile(samples: [record], windowStart: midnight.addingTimeInterval(-86400),
                                  through: midnight.addingTimeInterval(120), cursor: "one", state: &state)
         XCTAssertEqual(GameEngine.todaySteps(samples: [record], on: midnight.addingTimeInterval(120), calendar: calendar), 60)
@@ -79,9 +85,9 @@ final class StepReconciliationTests: XCTestCase {
     }
 
     func testInvalidInputDoesNotMutate() {
-        var state = PetState(now: start)
+        var state = legacyState()
         XCTAssertThrowsError(try sync([sample("bad", .nan)], &state))
-        XCTAssertEqual(state, PetState(now: start))
+        XCTAssertEqual(state, legacyState())
     }
 
     func testLargeOverlappingSnapshotUsesSamePriorityPolicy() {
@@ -96,7 +102,7 @@ final class StepReconciliationTests: XCTestCase {
     }
 
     func testRetirementDoesNotCreditUnobservedFutureSamplePortion() throws {
-        var state = PetState(now: start)
+        var state = legacyState()
         try sync([sample("long", 1000, length: 1000)], &state, through: 100)
         XCTAssertEqual(state.lifetimeStepsCredited, 100)
         try sync([], &state, offset: 500, through: 1000)

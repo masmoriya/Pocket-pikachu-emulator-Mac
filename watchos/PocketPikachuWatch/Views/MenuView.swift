@@ -5,19 +5,18 @@ struct MenuView: View {
     @ObservedObject var model: CompanionModel
     var returnToClock: () -> Void
     @Environment(\.dismiss) private var dismiss
-    private let activities: [(String, String)] = [
-        ("Feed", "toast"), ("Play", "rc"), ("Read", "reading"), ("Study", "history"),
-        ("Bathe", "bath"), ("Brush teeth", "brush"), ("Blocks", "blocks"),
-        ("Fly kite", "kite"), ("Yo-yo", "yoyo"), ("Walk", "walk"), ("Rest", "sleep-front")
-    ]
     var body: some View {
         List {
             Text(model.state.mood.label).foregroundStyle(.secondary)
             NavigationLink("Give gift") { GiftView(model: model, returnToClock: returnToClock) }
-            ForEach(activities, id: \.1) { title, animation in
-                Button(title) { model.interact(animation); dismiss() }
+            Button("Pet") { model.interact("hearts"); dismiss() }
+            Button("Feed") { model.interact("toast"); dismiss() }
+            Button("Live freely") { model.selectActivity(nil); dismiss() }
+            Picker("Friendship", selection: Binding(get: { model.state.mood }, set: model.setFriendship)) {
+                ForEach(PetMood.allCases, id: \.self) { Text($0.label).tag($0) }
             }
-            Button("Idle") { model.interact("idle"); dismiss() }
+            NavigationLink("Activities") { ActivityGalleryView(model: model, returnToClock: returnToClock) }
+            NavigationLink("Routine") { RoutineSettingsView(model: model) }
             NavigationLink("Watts") { WattsView(model: model) }
             NavigationLink("Settings") { SettingsView(model: model) }
         }.navigationTitle("Pikachu")
@@ -56,7 +55,7 @@ struct WattsView: View {
     var body: some View {
         List {
             Text("\(model.state.wattsBalance.formatted()) watts").font(.title3)
-            Text("\(model.state.stepRemainder)/20 steps toward next watt").font(.footnote)
+            Text("\(model.state.stepRemainder) saved steps · \(model.state.settings.stepsPerWatt) steps per watt").font(.footnote)
             ForEach(model.state.transactions.reversed()) { transaction in
                 VStack(alignment: .leading, spacing: 2) {
                     HStack {

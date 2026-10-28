@@ -109,7 +109,7 @@ obj("Main Group", "PBXGroup", fields({"children": refs(["PocketPikachuWatch", "P
 obj("Local WatchCore", "XCLocalSwiftPackageReference", fields({"relativePath": '"."'}))
 obj("WatchCore", "XCSwiftPackageProductDependency", fields({"package": uid("Local WatchCore"), "productName": "WatchCore"}))
 obj("WatchCore Framework", "PBXBuildFile", fields({"productRef": uid("WatchCore")}))
-obj("Embedded Widgets", "PBXBuildFile", fields({"fileRef": uid("PocketPikachuWidgets.appex"), "settings": "{ATTRIBUTES = (RemoveHeadersOnCopy, );}"}))
+obj("Embedded Widgets", "PBXBuildFile", fields({"fileRef": uid("PocketPikachuWidgets.appex"), "settings": "{ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, );}"}))
 obj("Embed App Extensions", "PBXCopyFilesBuildPhase", fields({"buildActionMask": "2147483647", "dstPath": '""', "dstSubfolderSpec": "13", "files": refs(["Embedded Widgets"]), "name": '"Embed App Extensions"', "runOnlyForDeploymentPostprocessing": "0"}))
 obj("Widgets Proxy", "PBXContainerItemProxy", fields({"containerPortal": uid("Project"), "proxyType": "1", "remoteGlobalIDString": uid("Widgets"), "remoteInfo": "PocketPikachuWidgets"}))
 obj("Widgets Dependency", "PBXTargetDependency", fields({"target": uid("Widgets"), "targetProxy": uid("Widgets Proxy")}))
@@ -147,7 +147,7 @@ for target, source, product, info, entitlement in [
         obj(f"{target} {mode}", "XCBuildConfiguration", fields({"buildSettings": "{ " + " ".join(f"{key} = {value};" for key, value in settings.items()) + " }", "name": mode}))
 
 for mode in ["Debug", "Release"]:
-    settings = 'SWIFT_OPTIMIZATION_LEVEL = "-Onone"; DEBUG_INFORMATION_FORMAT = dwarf; SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";' if mode == "Debug" else 'SWIFT_COMPILATION_MODE = wholemodule; SWIFT_OPTIMIZATION_LEVEL = "-O"; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";'
+    settings = 'ONLY_ACTIVE_ARCH = YES; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; DEBUG_INFORMATION_FORMAT = dwarf; SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";' if mode == "Debug" else 'SWIFT_COMPILATION_MODE = wholemodule; SWIFT_OPTIMIZATION_LEVEL = "-O"; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";'
     obj(f"Project {mode}", "XCBuildConfiguration", fields({"baseConfigurationReference": uid("Base.xcconfig"), "buildSettings": "{ " + settings + " }", "name": mode}))
 for target in ["Project", "App", "Widgets"]:
     obj(f"{target} Configurations", "XCConfigurationList", fields({"buildConfigurations": refs([f"{target} Debug", f"{target} Release"]), "defaultConfigurationIsVisible": "0", "defaultConfigurationName": "Release"}))

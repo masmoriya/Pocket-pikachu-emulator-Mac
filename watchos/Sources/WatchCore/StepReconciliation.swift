@@ -67,9 +67,12 @@ public extension GameEngine {
         let newlyEligible = max(0, ledger.observedEligibleSteps - ledger.creditedHighWater)
         ledger.creditedHighWater += newlyEligible
         ledger.windowStart = windowStart; ledger.through = through; ledger.cursor = cursor
+        // Carry partial walking through a rate change. Only fresh eligible steps
+        // trigger conversion: toggling rates or replaying a snapshot earns nothing.
+        let rate = max(1, state.settings.stepsPerWatt)
         let steps = state.stepRemainder + newlyEligible
-        let watts = steps / stepsPerWatt
-        state.stepRemainder = steps % stepsPerWatt
+        let watts = newlyEligible > 0 ? steps / rate : 0
+        if newlyEligible > 0 { state.stepRemainder = steps % rate }
         state.lifetimeStepsCredited += newlyEligible
         state.lifetimeWattsEarned += watts
         state.wattsBalance += watts

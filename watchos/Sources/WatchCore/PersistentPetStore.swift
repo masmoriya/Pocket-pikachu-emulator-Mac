@@ -67,6 +67,7 @@ public struct PersistentPetStore: Sendable {
             struct Legacy: Decodable { var wattsBalance: Int64; var friendshipPoints: Int64; var createdAt: Date }
             let legacy = try decoder.decode(Legacy.self, from: data)
             var state = PetState(now: legacy.createdAt)
+            state.settings.stepsPerWatt = 20
             state.wattsBalance = legacy.wattsBalance
             state.friendshipPoints = legacy.friendshipPoints
             state.currentAnimation = state.mood.animation
@@ -85,7 +86,11 @@ public struct PersistentPetStore: Sendable {
         guard state.schemaVersion == PetState.currentSchemaVersion,
               state.wattsBalance >= 0, state.lifetimeWattsEarned >= 0,
               state.lifetimeWattsSpent >= 0, state.lifetimeStepsCredited >= 0,
-              (0..<GameEngine.stepsPerWatt).contains(state.stepRemainder),
+              (0..<100).contains(state.stepRemainder),
+              GameSettings.stepRates.contains(state.settings.stepsPerWatt),
+              (60...100).contains(state.settings.spriteSize),
+              state.settings.dailySchedule.count <= 48,
+              state.settings.dailySchedule.allSatisfy({ (0..<1440).contains($0.minute) && !$0.activity.isEmpty }),
               state.transactions.count <= GameEngine.historyLimit,
               state.reconciliation.finalizedEligibleSteps.isFinite,
               state.reconciliation.finalizedEligibleSteps >= 0,

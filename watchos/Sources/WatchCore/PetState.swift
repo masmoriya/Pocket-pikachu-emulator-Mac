@@ -18,17 +18,6 @@ public enum PetMood: String, Codable, CaseIterable, Sendable {
     }
 }
 
-public struct GameSettings: Codable, Equatable, Sendable {
-    public enum ClockFormat: String, Codable, CaseIterable, Sendable { case system, twelveHour, twentyFourHour }
-    public var colored = true
-    public var clockFormat: ClockFormat = .system
-    public var hapticsEnabled = true
-    public var showSteps = true
-    public var showWatts = true
-    public var reducedAnimation = false
-    public init() {}
-}
-
 public struct WattTransaction: Codable, Equatable, Identifiable, Sendable {
     public enum Kind: String, Codable, Sendable { case walking, gift }
     public var id: String

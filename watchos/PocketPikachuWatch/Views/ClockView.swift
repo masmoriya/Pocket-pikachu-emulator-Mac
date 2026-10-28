@@ -8,6 +8,11 @@ struct ClockView: View {
     @Environment(\.scenePhase) private var phase
     @Environment(\.accessibilityReduceMotion) private var reducedMotion
 
+    private var scheduledActivity: String? {
+        guard model.state.settings.routineMode == .scheduled else { return nil }
+        return DailyRoutine.activity(in: model.state.settings.dailySchedule, at: .now)
+    }
+
     var body: some View {
         VStack(spacing: 2) {
             DigitalClockView(format: model.state.settings.clockFormat)
@@ -16,13 +21,17 @@ struct ClockView: View {
                     colored: model.state.settings.colored,
                     isActive: phase == .active && !dimmed,
                     reducedMotion: reducedMotion || model.state.settings.reducedAnimation,
-                    idleAnimationID: model.state.mood.animation)
+                    idleAnimationID: model.state.settings.selectedActivity ?? scheduledActivity ?? model.state.mood.animation,
+                    repeatFinite: model.state.currentAnimation == model.state.settings.selectedActivity
+                        || (model.state.settings.selectedActivity == nil
+                            && model.state.currentAnimation == scheduledActivity))
+                    .scaleEffect(Double(model.state.settings.spriteSize) / 100)
                     .id(model.animationToken)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Pikachu, \(model.state.mood.label)")
-            .accessibilityHint("Tap to greet")
+            .accessibilityHint(model.state.settings.cycleActivitiesOnTap ? "Tap to change activity" : "Tap to greet")
             .disabled(dimmed)
             if !dimmed {
                 TimelineView(.everyMinute) { context in
@@ -37,6 +46,9 @@ struct ClockView: View {
                             .accessibilityLabel("\(model.state.wattsBalance) watts")
                     }
                 }.font(.caption2).foregroundStyle(.secondary).privacySensitive()
+                    .onChange(of: context.date, initial: true) { _, date in
+                        if phase == .active { model.tick(at: date) }
+                    }
                 }
                 NavigationLink { MenuView(model: model, returnToClock: { path = NavigationPath() }) } label: {
                     Image(systemName: "ellipsis").frame(maxWidth: .infinity, minHeight: 28)

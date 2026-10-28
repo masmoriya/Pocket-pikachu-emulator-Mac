@@ -5,6 +5,15 @@ struct SettingsView: View {
     @ObservedObject var model: CompanionModel
     var body: some View {
         List {
+            Picker("Steps per watt", selection: setting(\.stepsPerWatt)) {
+                ForEach(GameSettings.stepRates, id: \.self) { Text("\($0)").tag($0) }
+            }
+            Toggle("Tap to cycle activities", isOn: setting(\.cycleActivitiesOnTap))
+            Picker("Sprite size", selection: setting(\.spriteSize)) {
+                Text("Small").tag(60)
+                Text("Medium").tag(80)
+                Text("Large").tag(100)
+            }
             Toggle("Color", isOn: setting(\.colored))
             Picker("Clock", selection: setting(\.clockFormat)) {
                 Text("System").tag(GameSettings.ClockFormat.system)
@@ -17,7 +26,8 @@ struct SettingsView: View {
             Toggle("Reduce animation", isOn: setting(\.reducedAnimation))
             HealthConnectionView(model: model, steps: model.steps)
             Section("About") {
-                Text("20 steps earn 1 watt. Gifts build friendship. All progress stays on this watch.")
+                Text("\(model.state.settings.stepsPerWatt) steps earn 1 watt. Gifts build friendship.")
+                Text("Partial steps carry across rate changes and convert with your next new steps.")
                 Text("Return to Clock is controlled in watch Settings → General → Return to Clock.")
                 Text("Personal fan project. Pokémon artwork belongs to its respective owners.")
                 Text("Version \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0")")

@@ -11,18 +11,25 @@ struct AnimationEngine: Sendable {
     let library: AnimationLibrary
     let animationID: String
     let idleAnimationID: String
+    var repeatFinite = false
 
-    init(library: AnimationLibrary, animationID: String, idleAnimationID: String = "idle") {
+    init(library: AnimationLibrary, animationID: String, idleAnimationID: String = "idle", repeatFinite: Bool = false) {
         self.library = library
         self.animationID = animationID
         self.idleAnimationID = idleAnimationID
+        self.repeatFinite = repeatFinite
     }
 
     func sample(elapsed: TimeInterval) -> Sample {
         let clip = library.clip(for: animationID)
         let time = elapsed.isFinite ? max(0, elapsed) : 0
+        if !clip.loop, repeatFinite {
+            return sample(clip: clip, time: time.truncatingRemainder(dividingBy: clip.duration), returned: false)
+        }
         if !clip.loop, time >= clip.duration {
-            return sample(clip: library.clip(for: idleAnimationID), time: time - clip.duration, returned: true)
+            let idle = library.clip(for: idleAnimationID)
+            let elapsed = time - clip.duration
+            return sample(clip: idle, time: idle.loop ? elapsed : elapsed.truncatingRemainder(dividingBy: idle.duration), returned: true)
         }
         return sample(clip: clip, time: time, returned: false)
     }

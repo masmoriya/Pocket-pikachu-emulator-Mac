@@ -8,7 +8,7 @@ import WidgetKit
     @Published private(set) var isLoaded = false
     @Published var errorMessage: String?
     @Published private(set) var todaySteps: Int?
-    @Published private(set) var animationToken = UUID()
+    @Published var animationToken = UUID()
     let steps = StepManager()
     private let store: PersistentPetStore
     private var lastSnapshot: PetSnapshot?
@@ -33,8 +33,18 @@ import WidgetKit
 
     func load() {
         do {
-            var loaded = try store.load() ?? PetState(now: .now)
+            var loaded: PetState
+            if let saved = try store.load() { loaded = saved }
+            else {
+                loaded = PetState(now: .now)
+                // Initial preferences mirror the saved Mac companion. Existing
+                // watch progress and preferences always take precedence.
+                loaded.friendshipPoints = 3001
+                loaded.currentAnimation = loaded.mood.animation
+                loaded.settings.spriteSize = 60
+            }
             restoreExpiredReaction(in: &loaded)
+            DailyRoutine.apply(at: .now, state: &loaded)
             try store.save(loaded)
             state = loaded
             isLoaded = true
@@ -46,7 +56,7 @@ import WidgetKit
         }
     }
 
-    @discardableResult private func commit(_ next: PetState) -> Bool {
+    @discardableResult func commit(_ next: PetState) -> Bool {
         guard isLoaded else { return false }
         do {
             try store.save(next)
@@ -62,8 +72,15 @@ import WidgetKit
     func updateSettings(_ settings: GameSettings) {
         var next = state
         next.settings = settings
+        if settings.routineMode != state.settings.routineMode,
+           settings.routineMode == .free, settings.selectedActivity == nil {
+            next.currentActivity = "idle"
+            next.currentAnimation = next.mood.animation
+        }
         next.lastStateUpdateDate = .now
-        commit(next)
+        DailyRoutine.apply(at: .now, state: &next)
+        let changed = next.currentAnimation != state.currentAnimation
+        if commit(next), changed { animationToken = UUID() }
     }
 
     func interact(_ activity: String) {
@@ -73,7 +90,8 @@ import WidgetKit
     }
 
     func greet() {
-        interact(state.mood == .love ? "loveHello" : "look")
+        if state.settings.cycleActivitiesOnTap { cycleActivity() }
+        else { interact(state.mood == .love ? "loveHello" : "look") }
     }
 
     @discardableResult func gift(_ amount: Int64, requestID: String) -> Bool {
@@ -102,6 +120,7 @@ import WidgetKit
         isSyncing = true
         var resumed = state
         restoreExpiredReaction(in: &resumed)
+        DailyRoutine.apply(at: .now, state: &resumed)
         if resumed.currentAnimation != state.currentAnimation { commit(resumed) }
         defer { isSyncing = false }
         if authorize { await steps.requestAuthorization() }
@@ -129,10 +148,13 @@ import WidgetKit
 
     private func restoreExpiredReaction(in pet: inout PetState) {
         guard let library = AnimationLibrary.bundled else { return }
+        let scheduled = pet.settings.routineMode == .scheduled
+            ? DailyRoutine.activity(in: pet.settings.dailySchedule, at: .now) : nil
+        guard pet.currentAnimation != (pet.settings.selectedActivity ?? scheduled) else { return }
         let clip = library.clip(for: pet.currentAnimation)
         if !clip.loop, Date.now.timeIntervalSince(pet.lastInteractionDate) >= clip.duration {
-            pet.currentActivity = "idle"
-            pet.currentAnimation = pet.mood.animation
+            pet.currentActivity = pet.settings.selectedActivity ?? "idle"
+            pet.currentAnimation = pet.settings.selectedActivity ?? pet.mood.animation
             pet.lastStateUpdateDate = .now
         }
     }

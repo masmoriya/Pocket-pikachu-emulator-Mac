@@ -1,7 +1,7 @@
 // Set your signing team and registered bundle identifier here.
-WATCH_BUNDLE_IDENTIFIER = com.pocketpikachu.watch
-APP_GROUP_IDENTIFIER = group.com.pocketpikachu.watch
-DEVELOPMENT_TEAM =
+WATCH_BUNDLE_IDENTIFIER = com.filmclusive.pocketpikachu.watch
+APP_GROUP_IDENTIFIER = group.com.filmclusive.pocketpikachu.watch
+DEVELOPMENT_TEAM = 7R86BTRSLR
 CODE_SIGN_STYLE = Automatic
 SDKROOT = watchos
 SUPPORTED_PLATFORMS = watchos watchsimulator
