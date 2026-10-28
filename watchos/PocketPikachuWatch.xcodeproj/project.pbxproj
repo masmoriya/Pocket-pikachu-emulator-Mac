@@ -1,0 +1,254 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 77;
+	objects = {
+		C11A3F7837F20CEAAF52CD36 /* PocketPikachuWatch */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {};
+			explicitFolders = ();
+			path = "PocketPikachuWatch";
+			sourceTree = "<group>";
+		};
+		14C7C59B9056CDC3CA28E08C /* PocketPikachuWidgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {};
+			explicitFolders = ();
+			path = "PocketPikachuWidgets";
+			sourceTree = "<group>";
+		};
+		E3C4B39D6D5013477C98CD58 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {};
+			explicitFolders = ();
+			path = "Shared";
+			sourceTree = "<group>";
+		};
+		F45CBD035F340C73C0F601C3 /* PocketPikachuWatch.app */ = {
+			isa = PBXFileReference;
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			path = "PocketPikachuWatch.app";
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9087DA6967883161AF2D3BCA /* PocketPikachuWidgets.appex */ = {
+			isa = PBXFileReference;
+			explicitFileType = wrapper.app-extension;
+			includeInIndex = 0;
+			path = "PocketPikachuWidgets.appex";
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4E207B45D9582D2AA2606BAC /* Base.xcconfig */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xcconfig;
+			path = "Config/Base.xcconfig";
+			sourceTree = "<group>";
+		};
+		2755F128D12C1C5CE4EF2511 /* color-atlas.png */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = "PocketPikachuWatch/Resources/color-atlas.png";
+			sourceTree = "<group>";
+		};
+		1D2AF3E8DB59E7B620481275 /* Widget color-atlas.png */ = {
+			isa = PBXBuildFile;
+			fileRef = 2755F128D12C1C5CE4EF2511;
+		};
+		D2E35EC91595D248857BA1B8 /* animations.json */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.json;
+			path = "PocketPikachuWatch/Resources/animations.json";
+			sourceTree = "<group>";
+		};
+		30674D335CA9E19658E26249 /* Widget animations.json */ = {
+			isa = PBXBuildFile;
+			fileRef = D2E35EC91595D248857BA1B8;
+		};
+		5746CA6AA58C8D99D810ED5E /* Widget Resources */ = {
+			isa = PBXGroup;
+			children = (2755F128D12C1C5CE4EF2511, D2E35EC91595D248857BA1B8);
+			name = "Widget Resources";
+			sourceTree = "<group>";
+		};
+		4EDC8BFAFC6BD936B849F38C /* Products */ = {
+			isa = PBXGroup;
+			children = (F45CBD035F340C73C0F601C3, 9087DA6967883161AF2D3BCA);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0BB0765602CC9BA993BEA866 /* Main Group */ = {
+			isa = PBXGroup;
+			children = (C11A3F7837F20CEAAF52CD36, 14C7C59B9056CDC3CA28E08C, E3C4B39D6D5013477C98CD58, 5746CA6AA58C8D99D810ED5E, 4E207B45D9582D2AA2606BAC, 4EDC8BFAFC6BD936B849F38C);
+			sourceTree = "<group>";
+		};
+		CDA83CB0CA05CD7872392339 /* Local WatchCore */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ".";
+		};
+		3808416EC610F6CA896D380D /* WatchCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CDA83CB0CA05CD7872392339;
+			productName = WatchCore;
+		};
+		43F7EC0DAAA96E4225FDF34A /* WatchCore Framework */ = {
+			isa = PBXBuildFile;
+			productRef = 3808416EC610F6CA896D380D;
+		};
+		CE1C3BD88F24ED0DF705E2A0 /* Embedded Widgets */ = {
+			isa = PBXBuildFile;
+			fileRef = 9087DA6967883161AF2D3BCA;
+			settings = {ATTRIBUTES = (RemoveHeadersOnCopy, );};
+		};
+		C4C44C6103173953F6C21BBD /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (CE1C3BD88F24ED0DF705E2A0);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0C5D0594BE065C7165A80EC6 /* Widgets Proxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 985959785319747668373CC6;
+			proxyType = 1;
+			remoteGlobalIDString = 1FDA79FFB65973572D06D113;
+			remoteInfo = PocketPikachuWidgets;
+		};
+		F34A854EBCAF4A1703C9B4AF /* Widgets Dependency */ = {
+			isa = PBXTargetDependency;
+			target = 1FDA79FFB65973572D06D113;
+			targetProxy = 0C5D0594BE065C7165A80EC6;
+		};
+		764780A9BE5D2A2BDEF5BF1D /* App Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8DF96536761EDDE6912A73CE /* App Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7324A4AEF6D96D59891E139 /* App Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (43F7EC0DAAA96E4225FDF34A);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D04BFEB7D64B71C74FC925C /* App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1417FEE02E78437AFB9CCF83;
+			buildPhases = (764780A9BE5D2A2BDEF5BF1D, A7324A4AEF6D96D59891E139, 8DF96536761EDDE6912A73CE, C4C44C6103173953F6C21BBD);
+			buildRules = ();
+			dependencies = (F34A854EBCAF4A1703C9B4AF);
+			fileSystemSynchronizedGroups = (C11A3F7837F20CEAAF52CD36, E3C4B39D6D5013477C98CD58);
+			name = PocketPikachuWatch;
+			packageProductDependencies = (3808416EC610F6CA896D380D);
+			productName = PocketPikachuWatch;
+			productReference = F45CBD035F340C73C0F601C3;
+			productType = "com.apple.product-type.application";
+		};
+		6947E524C2DAB07AB0AD925F /* App Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = { PRODUCT_NAME = "$(TARGET_NAME)"; PRODUCT_BUNDLE_IDENTIFIER = "$(WATCH_BUNDLE_IDENTIFIER)"; INFOPLIST_FILE = "Config/WatchApp-Info.plist"; CODE_SIGN_ENTITLEMENTS = "Config/WatchApp.entitlements"; SKIP_INSTALL = NO; SWIFT_EMIT_LOC_STRINGS = YES; };
+			name = Debug;
+		};
+		470431989E5839FC32F35A62 /* App Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = { PRODUCT_NAME = "$(TARGET_NAME)"; PRODUCT_BUNDLE_IDENTIFIER = "$(WATCH_BUNDLE_IDENTIFIER)"; INFOPLIST_FILE = "Config/WatchApp-Info.plist"; CODE_SIGN_ENTITLEMENTS = "Config/WatchApp.entitlements"; SKIP_INSTALL = NO; SWIFT_EMIT_LOC_STRINGS = YES; };
+			name = Release;
+		};
+		ADAC0053420F80276BD90443 /* Widgets Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4E9A6F23F574AA3E7C00DEA2 /* Widgets Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (1D2AF3E8DB59E7B620481275, 30674D335CA9E19658E26249);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		436E443CE8D7B3F12836E9C4 /* Widgets Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1FDA79FFB65973572D06D113 /* Widgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D6DEAE6C22F25DD34D5F369C;
+			buildPhases = (ADAC0053420F80276BD90443, 436E443CE8D7B3F12836E9C4, 4E9A6F23F574AA3E7C00DEA2);
+			buildRules = ();
+			dependencies = ();
+			fileSystemSynchronizedGroups = (14C7C59B9056CDC3CA28E08C, E3C4B39D6D5013477C98CD58);
+			name = PocketPikachuWidgets;
+			packageProductDependencies = ();
+			productName = PocketPikachuWidgets;
+			productReference = 9087DA6967883161AF2D3BCA;
+			productType = "com.apple.product-type.app-extension";
+		};
+		511A81433CE1B7FF1F883ED6 /* Widgets Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = { PRODUCT_NAME = "$(TARGET_NAME)"; PRODUCT_BUNDLE_IDENTIFIER = "$(WATCH_BUNDLE_IDENTIFIER).widgets"; INFOPLIST_FILE = "Config/Widgets-Info.plist"; CODE_SIGN_ENTITLEMENTS = "Config/Widgets.entitlements"; SKIP_INSTALL = YES; SWIFT_EMIT_LOC_STRINGS = YES; APPLICATION_EXTENSION_API_ONLY = YES; };
+			name = Debug;
+		};
+		A3E33EFBB273FD1D223DE345 /* Widgets Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = { PRODUCT_NAME = "$(TARGET_NAME)"; PRODUCT_BUNDLE_IDENTIFIER = "$(WATCH_BUNDLE_IDENTIFIER).widgets"; INFOPLIST_FILE = "Config/Widgets-Info.plist"; CODE_SIGN_ENTITLEMENTS = "Config/Widgets.entitlements"; SKIP_INSTALL = YES; SWIFT_EMIT_LOC_STRINGS = YES; APPLICATION_EXTENSION_API_ONLY = YES; };
+			name = Release;
+		};
+		E20609128BE34B268B1C1700 /* Project Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E207B45D9582D2AA2606BAC;
+			buildSettings = { SWIFT_OPTIMIZATION_LEVEL = "-Onone"; DEBUG_INFORMATION_FORMAT = dwarf; SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)"; };
+			name = Debug;
+		};
+		06D9FAC4492C016BD6137653 /* Project Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E207B45D9582D2AA2606BAC;
+			buildSettings = { SWIFT_COMPILATION_MODE = wholemodule; SWIFT_OPTIMIZATION_LEVEL = "-O"; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; };
+			name = Release;
+		};
+		8BA01603BF4BC8B932E8C621 /* Project Configurations */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (E20609128BE34B268B1C1700, 06D9FAC4492C016BD6137653);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1417FEE02E78437AFB9CCF83 /* App Configurations */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (6947E524C2DAB07AB0AD925F, 470431989E5839FC32F35A62);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D6DEAE6C22F25DD34D5F369C /* Widgets Configurations */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (511A81433CE1B7FF1F883ED6, A3E33EFBB273FD1D223DE345);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		985959785319747668373CC6 /* Project */ = {
+			isa = PBXProject;
+			attributes = { BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 2710; TargetAttributes = { 0D04BFEB7D64B71C74FC925C = {CreatedOnToolsVersion = 27.1; SystemCapabilities = {com.apple.HealthKit = {enabled = 1;}; com.apple.ApplicationGroups.iOS = {enabled = 1;};};}; 1FDA79FFB65973572D06D113 = {CreatedOnToolsVersion = 27.1; SystemCapabilities = {com.apple.ApplicationGroups.iOS = {enabled = 1;};};}; }; };
+			buildConfigurationList = 8BA01603BF4BC8B932E8C621;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (en, Base);
+			mainGroup = 0BB0765602CC9BA993BEA866;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (CDA83CB0CA05CD7872392339);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 4EDC8BFAFC6BD936B849F38C;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (0D04BFEB7D64B71C74FC925C, 1FDA79FFB65973572D06D113);
+		};
+	};
+	rootObject = 985959785319747668373CC6;
+}
