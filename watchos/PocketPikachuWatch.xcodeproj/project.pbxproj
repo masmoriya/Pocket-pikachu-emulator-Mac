@@ -11,6 +11,7 @@
 		30674D335CA9E19658E26249 /* PocketPikachuWatch/Resources/animations.json in Resources */ = {isa = PBXBuildFile; fileRef = D2E35EC91595D248857BA1B8 /* PocketPikachuWatch/Resources/animations.json */; };
 		43F7EC0DAAA96E4225FDF34A /* WatchCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3808416EC610F6CA896D380D /* WatchCore */; };
 		CE1C3BD88F24ED0DF705E2A0 /* PocketPikachuWidgets.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9087DA6967883161AF2D3BCA /* PocketPikachuWidgets.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BEA100000000000000000001 /* mono-atlas.png in Resources */ = {isa = PBXBuildFile; fileRef = BEA100000000000000000002 /* mono-atlas.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		9087DA6967883161AF2D3BCA /* PocketPikachuWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PocketPikachuWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2E35EC91595D248857BA1B8 /* PocketPikachuWatch/Resources/animations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PocketPikachuWatch/Resources/animations.json; sourceTree = "<group>"; };
 		F45CBD035F340C73C0F601C3 /* PocketPikachuWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketPikachuWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEA100000000000000000002 /* mono-atlas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PocketPikachuWatch/Resources/mono-atlas.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -107,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				2755F128D12C1C5CE4EF2511 /* PocketPikachuWatch/Resources/color-atlas.png */,
+				BEA100000000000000000002 /* mono-atlas.png */,
 				D2E35EC91595D248857BA1B8 /* PocketPikachuWatch/Resources/animations.json */,
 			);
 			name = "Widget Resources";
@@ -223,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D2AF3E8DB59E7B620481275 /* PocketPikachuWatch/Resources/color-atlas.png in Resources */,
+				BEA100000000000000000001 /* mono-atlas.png in Resources */,
 				30674D335CA9E19658E26249 /* PocketPikachuWatch/Resources/animations.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

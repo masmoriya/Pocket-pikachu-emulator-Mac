@@ -4,9 +4,10 @@ import SwiftUI
 /// Reads only the saved frame. The widget never advances an animation or game state.
 struct WidgetPetSprite: View {
     let frameID: String
+    var colored = true
 
     var body: some View {
-        if let frame = WidgetSpriteAtlas.frame(frameID) {
+        if let frame = WidgetSpriteAtlas.frame(frameID, colored: colored) {
             Image(decorative: frame, scale: 1)
                 .interpolation(.none)
                 .resizable()
@@ -18,7 +19,7 @@ struct WidgetPetSprite: View {
     }
 }
 
-private enum WidgetSpriteAtlas {
+@MainActor private enum WidgetSpriteAtlas {
     private struct Manifest: Decodable {
         struct Frame: Decodable {
             let id: String
@@ -36,14 +37,24 @@ private enum WidgetSpriteAtlas {
         return try? JSONDecoder().decode(Manifest.self, from: data)
     }()
 
-    private static let atlas: CGImage? = {
-        guard let url = Bundle.main.url(forResource: "color-atlas", withExtension: "png"),
-              let source = CGImageSourceCreateWithURL(url as CFURL, nil) else { return nil }
-        return CGImageSourceCreateImageAtIndex(source, 0, nil)
+    private static let colorAtlas = loadAtlas("color-atlas")
+    private static let monoAtlas = loadAtlas("mono-atlas")
+    private static let frames: NSCache<NSString, CGImage> = {
+        let cache = NSCache<NSString, CGImage>()
+        cache.countLimit = 24
+        return cache
     }()
 
-    static func frame(_ id: String) -> CGImage? {
-        guard let manifest, let atlas,
+    private static func loadAtlas(_ name: String) -> CGImage? {
+        guard let url = Bundle.main.url(forResource: name, withExtension: "png"),
+              let source = CGImageSourceCreateWithURL(url as CFURL, nil) else { return nil }
+        return CGImageSourceCreateImageAtIndex(source, 0, nil)
+    }
+
+    static func frame(_ id: String, colored: Bool) -> CGImage? {
+        let key = "\(colored):\(id)" as NSString
+        if let cached = frames.object(forKey: key) { return cached }
+        guard let manifest, let atlas = colored ? colorAtlas : monoAtlas,
               manifest.width == 36, manifest.height == 30, manifest.columns > 0,
               let index = manifest.frames.first(where: { $0.id == id })?.index,
               index >= 0 else { return nil }
@@ -56,6 +67,8 @@ private enum WidgetSpriteAtlas {
         guard rectangle.maxX <= CGFloat(atlas.width), rectangle.maxY <= CGFloat(atlas.height) else {
             return nil
         }
-        return atlas.cropping(to: rectangle)
+        guard let frame = atlas.cropping(to: rectangle) else { return nil }
+        frames.setObject(frame, forKey: key)
+        return frame
     }
 }

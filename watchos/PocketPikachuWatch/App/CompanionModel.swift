@@ -125,10 +125,18 @@ import WidgetKit
         defer { isSyncing = false }
         if authorize { await steps.requestAuthorization() }
         else { await steps.refresh() }
-        guard let snapshot = steps.latestSnapshot else { todaySteps = nil; return }
+        guard let snapshot = steps.latestSnapshot else {
+            todaySteps = nil
+            publishSnapshot()
+            return
+        }
         // HealthKit cannot distinguish revoked read access from an empty store.
         // Keep credit ledger intact when no accessible samples exist.
-        guard !snapshot.samples.isEmpty else { todaySteps = nil; return }
+        guard !snapshot.samples.isEmpty else {
+            todaySteps = nil
+            publishSnapshot()
+            return
+        }
         var next = state
         do {
             try GameEngine.reconcile(samples: snapshot.samples, windowStart: snapshot.windowStart,
@@ -167,16 +175,21 @@ import WidgetKit
     }
 
     private func publishSnapshot() {
-        let frame: String
+        let fallback: String
         switch state.mood {
-        case .away: frame = "standLeft"
-        case .mad: frame = "standMad.stand"
-        default: frame = "standBasic.stand"
+        case .away: fallback = "standLeft"
+        case .mad: fallback = "standMad.stand"
+        default: fallback = "standBasic.stand"
         }
+        let frame = AnimationLibrary.bundled?.clip(for: state.currentAnimation).steps.first?.frame ?? fallback
         let snapshot = PetSnapshot(date: .now, steps: displayedSteps(at: .now),
-                                   watts: state.wattsBalance, mood: state.mood.label, frameID: frame)
+                                   watts: state.wattsBalance, mood: state.mood.label, frameID: frame,
+                                   dailyStepGoal: state.settings.dailyStepGoal, colored: state.settings.colored)
         guard lastSnapshot?.steps != snapshot.steps || lastSnapshot?.watts != snapshot.watts
             || lastSnapshot?.mood != snapshot.mood
+            || lastSnapshot?.frameID != snapshot.frameID
+            || lastSnapshot?.dailyStepGoal != snapshot.dailyStepGoal
+            || lastSnapshot?.colored != snapshot.colored
             || lastSnapshot.map({ !Calendar.current.isDate($0.date, inSameDayAs: snapshot.date) }) ?? true
             else { return }
         do {

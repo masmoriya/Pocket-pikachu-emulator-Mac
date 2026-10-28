@@ -17,6 +17,7 @@ struct MenuView: View {
             NavigationLink("Activities") { ActivityGalleryView(model: model, returnToClock: returnToClock) }
             NavigationLink("Routine") { RoutineSettingsView(model: model) }
             NavigationLink("Watts") { WattsView(model: model) }
+            NavigationLink("Watch face") { WatchFaceGuideView() }
             NavigationLink("Settings") { SettingsView(model: model) }
         }.navigationTitle("Pikachu")
     }

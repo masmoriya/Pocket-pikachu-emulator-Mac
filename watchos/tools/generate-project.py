@@ -100,10 +100,10 @@ for name in ["PocketPikachuWatch", "PocketPikachuWidgets", "Shared"]:
 for name, kind in [("PocketPikachuWatch.app", "wrapper.application"), ("PocketPikachuWidgets.appex", "wrapper.app-extension")]:
     obj(name, "PBXFileReference", fields({"explicitFileType": kind, "includeInIndex": "0", "path": quote(name), "sourceTree": "BUILT_PRODUCTS_DIR"}))
 obj("Base.xcconfig", "PBXFileReference", fields({"lastKnownFileType": "text.xcconfig", "path": '"Config/Base.xcconfig"', "sourceTree": '"<group>"'}))
-for name, kind in [("color-atlas.png", "image.png"), ("animations.json", "text.json")]:
+for name, kind in [("color-atlas.png", "image.png"), ("mono-atlas.png", "image.png"), ("animations.json", "text.json")]:
     obj(name, "PBXFileReference", fields({"lastKnownFileType": kind, "path": quote("PocketPikachuWatch/Resources/" + name), "sourceTree": '"<group>"'}))
     obj("Widget " + name, "PBXBuildFile", fields({"fileRef": uid(name)}))
-obj("Widget Resources", "PBXGroup", fields({"children": refs(["color-atlas.png", "animations.json"]), "name": '"Widget Resources"', "sourceTree": '"<group>"'}))
+obj("Widget Resources", "PBXGroup", fields({"children": refs(["color-atlas.png", "mono-atlas.png", "animations.json"]), "name": '"Widget Resources"', "sourceTree": '"<group>"'}))
 obj("Products", "PBXGroup", fields({"children": refs(["PocketPikachuWatch.app", "PocketPikachuWidgets.appex"]), "name": "Products", "sourceTree": '"<group>"'}))
 obj("Main Group", "PBXGroup", fields({"children": refs(["PocketPikachuWatch", "PocketPikachuWidgets", "Shared", "Widget Resources", "Base.xcconfig", "Products"]), "sourceTree": '"<group>"'}))
 obj("Local WatchCore", "XCLocalSwiftPackageReference", fields({"relativePath": '"."'}))
@@ -122,7 +122,7 @@ for target, source, product, info, entitlement in [
     for phase, isa in [("Sources", "PBXSourcesBuildPhase"), ("Resources", "PBXResourcesBuildPhase"), ("Frameworks", "PBXFrameworksBuildPhase")]:
         files = refs(["WatchCore Framework"]) if is_app and phase == "Frameworks" else "()"
         if not is_app and phase == "Resources":
-            files = refs(["Widget color-atlas.png", "Widget animations.json"])
+            files = refs(["Widget color-atlas.png", "Widget mono-atlas.png", "Widget animations.json"])
         obj(f"{target} {phase}", isa, fields({"buildActionMask": "2147483647", "files": files, "runOnlyForDeploymentPostprocessing": "0"}))
     phases = [f"{target} Sources", f"{target} Frameworks", f"{target} Resources"]
     if is_app:
